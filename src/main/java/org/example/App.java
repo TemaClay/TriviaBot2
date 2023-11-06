@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 /**
  * Hello world!
  *
@@ -13,10 +15,17 @@ public class App
 
         while (true)
         {
-            String res = handler.gameQuestion();
-            Request userRequest = new CLIRequest();
-            String req = userRequest.getRequest();
-            handler.gameCompareResults(res, req);
+            Game game = handler.mathGame();
+            String ex = "1";
+            while (Objects.equals(ex, "1")) {
+                handler.gameQuestion(game);
+                Request request = new CLIRequest();
+                ex = handler.gameCompareResults(game.getResult(), request.getRequest());
+            }
+            if (Objects.equals(ex, "2"))
+            {
+                break;
+            }
         }
 
 

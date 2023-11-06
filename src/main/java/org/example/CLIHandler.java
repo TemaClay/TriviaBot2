@@ -7,24 +7,23 @@ public class CLIHandler extends BaseHandler {
 
 
     @Override
-    public void handle(String request)
+    public String handle(String request)
     {
         String request1 = request;
         // Вид команды /command args
         String[] splitedString = request1.split(" ");
-
-        if (splitedString[0].charAt(0) == '/')
-        {
+        String[] cmd = new String[2];
+        if (splitedString[0].charAt(0) == '/') {
             Command command = new Command();
-            System.out.println(command.getCommand(splitedString));
-
-        } else
-        {
-            System.out.println("Нет такого");
+            cmd = command.getCommand(splitedString);
+            System.out.println(cmd[0]);
         }
+        if (Objects.equals(cmd[1], "1"))
+            return "exit";
 
+
+        return null;
         //TODO: обработка полученной команды
-
 
     }
 
@@ -39,7 +38,7 @@ public class CLIHandler extends BaseHandler {
         if (Objects.equals(splitedString[0].charAt(0), '/'))
         {
             Command command = new Command();
-            return new CLIResponse(command.getCommand(splitedString));
+            return new CLIResponse(command.getCommand(splitedString)[0]);
         }
         return new CLIResponse("Response");
     }
@@ -54,26 +53,27 @@ public class CLIHandler extends BaseHandler {
                 "ты сможешь отвечать на вопросы, начнем!");
     }
 
-    public String gameQuestion()
+
+
+    public Game mathGame()
     {
-        Game game1 = new CLIGame();
-        String[] expression = game1.MathematicQuestion();
+        Game game = new MathGame();
+        return game;
+    }
 
-        System.out.println(expression[0] + ' ' + expression[1] + ' ' + expression[2] + " = ?");
-
-        return expression[3];
-
-
+    public void gameQuestion(Game game)
+    {
+        System.out.println(game.getQuestion());
     }
 
     @Override
-    public void gameCompareResults(String res, String userAnswer)
+    public String gameCompareResults(String res, String userAnswer)
     {
         String[] splitedString = userAnswer.split(" ");
         if (Objects.equals(res, userAnswer))
         {
             System.out.println("Верно");
-            return;
+            return "0";
         }
         else
         {
@@ -81,11 +81,16 @@ public class CLIHandler extends BaseHandler {
             {
                 int answer = Integer.parseInt(splitedString[0]);
                 System.out.println("Неверно");
-                return;
+                return "0";
             }
             catch (NumberFormatException e)
             {
-                handle(userAnswer);
+                String r = handle(userAnswer);
+                if (Objects.equals(r, "exit"))
+                {
+                    return "2";
+                }
+                return "1";
             }
         }
     }

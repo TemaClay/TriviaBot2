@@ -2,6 +2,6 @@ package org.example;
 
 public interface Game
 {
-    public String[] MathematicQuestion();
-
+    public String getResult();
+    public String getQuestion();
 }

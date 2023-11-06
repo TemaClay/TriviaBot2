@@ -7,9 +7,11 @@ public abstract class BaseHandler
 {
     /**
      * Обрабатывает запрос, не дожидаясь ответа.
+     *
      * @param request запрос пользователя.
+     * @return
      */
-    public abstract void handle(String request);
+    public abstract String handle(String request);
 
     /**
      * Обрабатывает запрос и дожидается ответа.
@@ -21,9 +23,9 @@ public abstract class BaseHandler
 
     public abstract void Start();
 
-    public abstract String gameQuestion();
+    public abstract Game mathGame();
 
+    public abstract void gameQuestion(Game game);
 
-
-    public abstract void gameCompareResults(String res, String userAnswer);
+    public abstract String gameCompareResults(String res, String userAnswer);
 }
