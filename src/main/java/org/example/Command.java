@@ -2,18 +2,17 @@ package org.example;
 
 public class Command
 {
-    private final String[] command;
 
-    public Command(String[] command) {
-        this.command = command;
-    }
 
-    public String getCommand()
+    public String getCommand(String[] command)
     {
-        return switch (this.command[0]) {
-            case "/help" -> "Это помощь вы можете...";
-            case "/exit" -> "12";
-            default -> "Неверная команда";
+        return switch (command[0]) {
+            case "/help":
+                yield "Это помощь вы можете...";
+            case "/exit":
+                yield "12";
+            default:
+                yield "Неверная команда";
         };
     }
 }

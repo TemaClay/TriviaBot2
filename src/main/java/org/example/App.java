@@ -8,12 +8,16 @@ public class App
 {
     public static void main( String[] args )
     {
-        CLIHandler handler = new CLIHandler();
+        BaseHandler handler = new CLIHandler();
         handler.Start();
 
         while (true)
         {
-
+            String res = handler.gameQuestion();
+            Request userRequest = new CLIRequest();
+            handler.gameCompareResults(res, userRequest);
         }
+
+
     }
 }

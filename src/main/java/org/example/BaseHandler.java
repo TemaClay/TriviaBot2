@@ -17,4 +17,12 @@ public abstract class BaseHandler
      * @return ответ на запрос пользователя.
      */
     public abstract Response handleWithResponse(Request request);
+
+    public abstract void Start();
+
+    public abstract String gameQuestion();
+
+    public abstract void CompareResults(String res, String userAnswer);
+
+    public abstract void gameCompareResults(String res, String userAnswer);
 }
