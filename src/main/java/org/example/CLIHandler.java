@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class CLIHandler extends BaseHandler {
 
-
+    private User user;
 
     @Override
     public String handle(String request)
@@ -49,8 +49,14 @@ public class CLIHandler extends BaseHandler {
      */
     public void Start()
     {
-        System.out.println("Привет! Этот бот создан для участия в викторине,\n" +
-                "ты сможешь отвечать на вопросы, начнем!");
+        Request req = new CLIRequest();
+        System.out.println("Привет! Как тебя зовут?");
+        String name = req.getRequest();
+        System.out.println(name + ", сколько тебе лет?");
+        int age = Integer.parseInt(req.getRequest());
+        User user = new User(name, age);
+        this.user = user;
+        System.out.println("Это бот для участия в викторине, давай начнем!");
     }
 
 
