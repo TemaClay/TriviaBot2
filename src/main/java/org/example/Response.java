@@ -8,5 +8,5 @@ public interface Response
     /**
      * @return ответ на запрос пользователя
      */
-    String getResponse();
+    void getResponse();
 }

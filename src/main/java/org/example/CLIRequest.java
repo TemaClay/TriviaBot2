@@ -8,7 +8,7 @@ public class CLIRequest implements Request
 
 
     /**
-     * @return
+     * @return ввод пользователя
      */
     @Override
     public String getRequest()
