@@ -7,16 +7,16 @@ public class CLIHandler extends BaseHandler {
     private User user;
 
     @Override
-    public String handle(String request)
+    public String handle(String request, User user)
     {
-        String request1 = request;
+
         // Вид команды /command args
-        String[] splitedString = request1.split(" ");
+        String[] splitedString = request.split(" ");
         String[] cmd = new String[2];
         if (splitedString[0].charAt(0) == '/') {
             Command command = new Command();
-            cmd = command.getCommand(splitedString);
-            System.out.println(cmd[0]);
+            cmd = command.getCommand(splitedString, user);
+            System.out.println(user.getName() + ",\n" + cmd[0]);
         }
         if (Objects.equals(cmd[1], "1"))
             return "exit";
@@ -26,7 +26,7 @@ public class CLIHandler extends BaseHandler {
         //TODO: обработка полученной команды
 
     }
-
+    /*
     @Override
     public Response handleWithResponse(String request)
     {
@@ -38,11 +38,11 @@ public class CLIHandler extends BaseHandler {
         if (Objects.equals(splitedString[0].charAt(0), '/'))
         {
             Command command = new Command();
-            return new CLIResponse(command.getCommand(splitedString)[0]);
+            return new CLIResponse(command.getCommand(splitedString, user)[0]);
         }
         return new CLIResponse("Response");
     }
-
+*/
     /**
      * начало диалога
      * @return
@@ -78,7 +78,9 @@ public class CLIHandler extends BaseHandler {
         String[] splitedString = userAnswer.split(" ");
         if (Objects.equals(res, userAnswer))
         {
-            System.out.println("Верно");
+            System.out.println("Верно, " + user.getName());
+            user.increaseCorrectAnswers();
+            user.increaseNumberOfQuestion();
             return "0";
         }
         else
@@ -86,12 +88,13 @@ public class CLIHandler extends BaseHandler {
             try
             {
                 int answer = Integer.parseInt(splitedString[0]);
-                System.out.println("Неверно");
+                System.out.println("Неверно, " + user.getName());
+                user.increaseNumberOfQuestion();
                 return "0";
             }
             catch (NumberFormatException e)
             {
-                String r = handle(userAnswer);
+                String r = handle(userAnswer, user);
                 if (Objects.equals(r, "exit"))
                 {
                     return "2";

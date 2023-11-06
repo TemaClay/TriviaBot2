@@ -11,15 +11,15 @@ public abstract class BaseHandler
      * @param request запрос пользователя.
      * @return
      */
-    public abstract String handle(String request);
-
+    public abstract String handle(String request, User user);
+    /*
     /**
      * Обрабатывает запрос и дожидается ответа.
      * @param request запрос пользователя.
      * @return ответ на запрос пользователя.
      */
 
-    public abstract Response handleWithResponse(String request);
+    //public abstract Response handleWithResponse(String request);
 
     public abstract void Start();
 
