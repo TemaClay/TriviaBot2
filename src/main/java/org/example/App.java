@@ -15,7 +15,8 @@ public class App
         {
             String res = handler.gameQuestion();
             Request userRequest = new CLIRequest();
-            handler.gameCompareResults(res, userRequest);
+            String req = userRequest.getRequest();
+            handler.gameCompareResults(res, req);
         }
 
 

@@ -2,26 +2,25 @@ package org.example;
 
 import java.util.Objects;
 
-public class CLIHandler extends BaseHandler
-{
+public class CLIHandler extends BaseHandler {
 
 
 
     @Override
-    public void handle(Request request)
+    public void handle(String request)
     {
-        String request1 = request.getRequest();
+        String request1 = request;
         // Вид команды /command args
         String[] splitedString = request1.split(" ");
 
         if (splitedString[0].charAt(0) == '/')
         {
             Command command = new Command();
-            command.getCommand(splitedString);
+            System.out.println(command.getCommand(splitedString));
 
         } else
         {
-
+            System.out.println("Нет такого");
         }
 
         //TODO: обработка полученной команды
@@ -30,9 +29,9 @@ public class CLIHandler extends BaseHandler
     }
 
     @Override
-    public Response handleWithResponse(Request request)
+    public Response handleWithResponse(String request)
     {
-        String request1 = request.getRequest();
+        String request1 = request;
         // Вид команды /command args
         String[] splitedString = request1.split(" ");
 
@@ -67,25 +66,26 @@ public class CLIHandler extends BaseHandler
 
     }
 
-
-    public void gameCompareResults(String res, Response userAnswer)
+    @Override
+    public void gameCompareResults(String res, String userAnswer)
     {
-        User
         String[] splitedString = userAnswer.split(" ");
         if (Objects.equals(res, userAnswer))
         {
             System.out.println("Верно");
+            return;
         }
         else
         {
             try
             {
                 int answer = Integer.parseInt(splitedString[0]);
+                System.out.println("Неверно");
                 return;
             }
             catch (NumberFormatException e)
             {
-                handleWithResponse()
+                handle(userAnswer);
             }
         }
     }
