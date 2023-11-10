@@ -14,7 +14,7 @@ public class Command
                 break;
             case "/exit":
                 res[0] = "Пока!";
-                res[1] = "1";
+                res[1] = "exit";
                 break;
             case "/result":
                 res[0] = "количество правильных ответов: " + user.getCorrectAnswers() + " из " + user.getNumberOfQuestion();
@@ -24,7 +24,7 @@ public class Command
                 res[0] = "Неверная команда";
                 res[1] = null;
                 break;
-        };
+        }
         return res;
     }
 }

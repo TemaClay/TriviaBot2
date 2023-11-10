@@ -6,6 +6,12 @@ public class CLIHandler extends BaseHandler {
 
     private User user;
 
+    /**
+     * @param request запрос пользователя.
+     * @param user экземпляр пользователя для запоминания личных данных
+     * @return null, если запрос пользователя это комманда
+     *         "exit", если введёно /exit - флаг для выхода
+     */
     @Override
     public String handle(String request, User user)
     {
@@ -16,9 +22,10 @@ public class CLIHandler extends BaseHandler {
         if (splitedString[0].charAt(0) == '/') {
             Command command = new Command();
             cmd = command.getCommand(splitedString, user);
-            System.out.println(user.getName() + ",\n" + cmd[0]);
+            Response response = new CLIResponse(user.getName() + ",\n" + cmd[0]);
+            response.getResponse();
         }
-        if (Objects.equals(cmd[1], "1"))
+        if (Objects.equals(cmd[1], "exit"))
             return "exit";
 
 
@@ -45,61 +52,71 @@ public class CLIHandler extends BaseHandler {
 */
     /**
      * начало диалога
-     * @return
+
      */
     public void Start()
     {
         Request req = new CLIRequest();
-        System.out.println("Привет! Как тебя зовут?");
+        Response helloResponse = new CLIResponse("Привет! Как тебя зовут?");
+        helloResponse.getResponse();
         String name = req.getRequest();
-        System.out.println(name + ", сколько тебе лет?");
+        Response ageQuestionResponse = new CLIResponse(name + ", сколько тебе лет?");
+        ageQuestionResponse.getResponse();
         int age = Integer.parseInt(req.getRequest());
-        User user = new User(name, age);
-        this.user = user;
-        System.out.println("Это бот для участия в викторине, давай начнем!");
+        this.user = new User(name, age);
+        Response startResponse = new CLIResponse("Это бот для участия в викторине, давай начнем!");
+        startResponse.getResponse();
     }
 
 
 
     public Game mathGame()
     {
-        Game game = new MathGame();
-        return game;
+        return new MathGame();
     }
 
     public void gameQuestion(Game game)
     {
-        System.out.println(game.getQuestion());
+        Response response = new CLIResponse(game.getQuestion());
+        response.getResponse();
     }
 
+    /**
+     * @param game текущая игра
+     * @param request запрос/ответ пользователя
+     * @return string
+     */
     @Override
-    public String gameCompareResults(String res, String userAnswer)
+    public String gameCompareResults(Game game, Request request)
     {
+        String userAnswer = request.getRequest();
         String[] splitedString = userAnswer.split(" ");
-        if (Objects.equals(res, userAnswer))
+        if (Objects.equals(game.getResult(), userAnswer))
         {
-            System.out.println("Верно, " + user.getName());
+            Response response = new CLIResponse("Верно, " + user.getName());
+            response.getResponse();
             user.increaseCorrectAnswers();
             user.increaseNumberOfQuestion();
-            return "0";
+            return "successfulCompare";
         }
         else
         {
             try
             {
                 int answer = Integer.parseInt(splitedString[0]);
-                System.out.println("Неверно, " + user.getName());
+                Response response = new CLIResponse("Неверно, " + user.getName());
+                response.getResponse();
                 user.increaseNumberOfQuestion();
-                return "0";
+                return "successfulCompare";
             }
             catch (NumberFormatException e)
             {
                 String r = handle(userAnswer, user);
                 if (Objects.equals(r, "exit"))
                 {
-                    return "2";
+                    return "exit";
                 }
-                return "1";
+                return null;
             }
         }
     }

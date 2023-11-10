@@ -10,9 +10,9 @@ public class CLIResponse implements Response
     }
 
     @Override
-    public String getResponse()
+    public void getResponse()
     {
-        return response;
+        System.out.println(response);
     }
 
 

@@ -27,5 +27,5 @@ public abstract class BaseHandler
 
     public abstract void gameQuestion(Game game);
 
-    public abstract String gameCompareResults(String res, String userAnswer);
+    public abstract String gameCompareResults(Game game, Request request);
 }

@@ -2,10 +2,7 @@ package org.example;
 
 import java.util.Objects;
 
-/**
- * Hello world!
- *
- */
+
 public class App
 {
     public static void main( String[] args )
@@ -17,13 +14,13 @@ public class App
         while (true)
         {
             Game game = handler.mathGame();
-            String ex = "1";
-            while (Objects.equals(ex, "1")) {
+            String ex = null;
+            while (Objects.equals(ex, null)) {
                 handler.gameQuestion(game);
                 Request request = new CLIRequest();
-                ex = handler.gameCompareResults(game.getResult(), request.getRequest());
+                ex = handler.gameCompareResults(game, request);
             }
-            if (Objects.equals(ex, "2"))
+            if (Objects.equals(ex, "exit"))
             {
                 break;
             }
