@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Полностью реализована архитектура">
+    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Сделан рабочий бот">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,10 +33,13 @@
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="5e660a17-9d43-47f4-a723-13cb1b4fd28e" />
-        <option name="url" value="https://github.com/TemaClay/TriviaBot.git" />
+        <option name="accountId" value="d3c3242e-929b-43f3-8ccd-52deef4b6102" />
+        <option name="url" value="https://github.com/TemaClay/TriviaBot2.git" />
       </UrlAndAccount>
     </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -51,10 +54,33 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kopte/Desktop/Java практики/bot проверка математики&quot;
+    &quot;git-widget-placeholder&quot;: &quot;TGBot&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kopte/Desktop/Java практики/bot проверка математики&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="TelegramGameBotApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tg.project.TelegramGameBot.TelegramGameBotApp" />
+      <module name="TelegramGameBot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tg.project.TelegramGameBot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TelegramGameBotApp" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -120,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699629878643</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Сделан рабочий бот">
+      <option name="closed" value="true" />
+      <created>1700035047232</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1700035047232</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,6 +176,18 @@
     <MESSAGE value="Добавлен класс User" />
     <MESSAGE value="Добавлена статистика ответов пользователя" />
     <MESSAGE value="Полностью реализована архитектура" />
-    <option name="LAST_COMMIT_MESSAGE" value="Полностью реализована архитектура" />
+    <MESSAGE value="Сделан рабочий бот" />
+    <option name="LAST_COMMIT_MESSAGE" value="Сделан рабочий бот" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
