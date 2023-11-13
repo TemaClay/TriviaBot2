@@ -1,5 +1,7 @@
 package tg.project.TelegramGameBot.service;
 
+import org.telegram.telegrambots.meta.api.objects.Update;
+
 /**
  * Базовый обработчик запроса
  */
@@ -11,7 +13,7 @@ public abstract class BaseHandler
      * @param request запрос пользователя.
      * @return
      */
-    public abstract String handle(String request, User user);
+    /*public abstract String handle(String request, User user);
     /*
     /**
      * Обрабатывает запрос и дожидается ответа.
@@ -21,11 +23,14 @@ public abstract class BaseHandler
 
     //public abstract Response handleWithResponse(String request);
 
-    public abstract void Start();
+    public abstract String handle(Update update);
+
+
 
     public abstract Game mathGame();
 
     public abstract void gameQuestion(Game game);
 
     public abstract String gameCompareResults(Game game, Request request);
+
 }

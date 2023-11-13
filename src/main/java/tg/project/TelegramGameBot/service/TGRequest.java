@@ -21,6 +21,6 @@ public class TGRequest implements Request {
             long chatId = update.getMessage().getChatId();
             return messageText;
         }
-        else return null;
+        return null;
     }
 }
