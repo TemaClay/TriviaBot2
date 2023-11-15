@@ -8,15 +8,18 @@ import tg.project.TelegramGameBot.config.BotConfig;
 
 import java.util.Objects;
 
+/**
+ * Класс, реализующий в основе Телеграм бота, берущий TelegramLongPollingBot за основу
+ *
+ */
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
 
-    static BotConfig config = null;
-    private boolean isStarted = false;
+    static BotConfig config;
     private final BaseHandler handler = new TGHandler(new Update());
 
     public TelegramBot(BotConfig config) {
-        this.config = config;
+        TelegramBot.config = config;
     }
 
     public static BotConfig getConfig() {
@@ -34,9 +37,12 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
 
-
+    /**
+     * Функция, которая по факту отправки пользователем информации, начинает работу с ней
+     * @param update данные пользователя
+     */
     @Override
     public void onUpdateReceived(Update update) {
             handler.handle(update);
             }
-        }
+}

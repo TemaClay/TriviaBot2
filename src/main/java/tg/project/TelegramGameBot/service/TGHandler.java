@@ -8,8 +8,12 @@ import java.util.Objects;
 public class TGHandler extends BaseHandler {
 
     private User user;
-
     private Update update;
+
+    private static boolean isStartChecked = false;
+    private static boolean isQuestionGiven = false;
+
+    private static Game game;
 
     public TGHandler(Update update, BotConfig config) {
         this.update = update;
@@ -18,86 +22,77 @@ public class TGHandler extends BaseHandler {
     public TGHandler(Update update) {
         this.update = update;
     }
-    /**
-     * @param request запрос пользователя.
-     * @param user    экземпляр пользователя для запоминания личных данных
-     * @return null, если запрос пользователя это комманда
-     * "exit", если введёно /exit - флаг для выхода
-     */
+
     @Override
-    public String handle(Update update) {
+    public void handle(Update update) {
         Request request = new TGRequest(update);
         String userMessage = request.getRequest();
-        if (Objects.equals(userMessage, "/start")){
-            String name = update.getMessage().getChat().getFirstName();
-            Response ageQuestionResponse = new TGResponse(TelegramBot.getConfig(), name + ", сколько тебе лет?", update.getMessage().getChatId());
-            ageQuestionResponse.getResponse();
-            request = new TGRequest(update);
-            int age = Integer.parseInt(request.getRequest());
-            User ourUser = new User(name, age);
-            Response startResponse = new TGResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getMessage().getChatId());
-            startResponse.getResponse();
-        }
-        // Вид команды /command args
-        String[] splitedString = userMessage.split(" ");
-        String[] cmd = new String[2];
-        if (splitedString[0].charAt(0) == '/') {
-            Command command = new Command();
-            cmd = command.getCommand(splitedString, user);
-            Response response = new TGResponse(TelegramBot.getConfig(), user.getName() + ",\n" + cmd[0], update.getMessage().getChatId());
-            response.getResponse();
-        }
-        if (Objects.equals(cmd[1], "exit"))
-            return "exit";
 
+        if (Objects.equals(userMessage, "/start") || isStartChecked){
+            newBotEntranceStartSequence(update);
+            if (isStartChecked) return;
+        }
 
-        return null;
+            String ex;
+
+            if (!isQuestionGiven) {
+                game = mathGame();
+                ex = null;
+                gameQuestion(game, update);
+                isQuestionGiven = true;
+                return;
+        }
+            else {
+                String answer = update.getMessage().getText();
+                ex = gameCompareResults(game, answer, update);
+                isQuestionGiven = false;
+            }
+        if (!isQuestionGiven) {
+            game = mathGame();
+            ex = null;
+            gameQuestion(game, update);
+            isQuestionGiven = true;
+        }
         //TODO: обработка полученной команды
 
     }
-    /*
-    @Override
-    public Response handleWithResponse(String request)
-    {
-        String request1 = request;
-        // Вид команды /command args
-        String[] splitedString = request1.split(" ");
-
-        //TODO: обрабатываем команду
-        if (Objects.equals(splitedString[0].charAt(0), '/'))
-        {
-            Command command = new Command();
-            return new CLIResponse(command.getCommand(splitedString, user)[0]);
-        }
-        return new CLIResponse("Response");
-    }
-*/
 
     /**
-     * начало диалога
+     * Функция, вызываемая при старте бота для генерации нового пользователя
+     * Нам нужно получить от пользователя /start, а затем его возраст, поэтому функция воспроизводится в
+     * 2 итерации:
+     * 1) принимает /start, даёт на него ответ,
+     * 2) принимает возраст, создаёт пользователя
+     * @param update получает данные пользователя Телеграм
      */
+    public void newBotEntranceStartSequence(Update update) {
+        if (!isStartChecked) {
+            Response ageQuestionResponse = new TGResponse(TelegramBot.getConfig(), update.getMessage().getChat().getFirstName() + ", сколько тебе лет?", update.getMessage().getChatId());
+            ageQuestionResponse.getResponse();
+            isStartChecked = true;
+        }
+        else {
+            Request request = new TGRequest(update);
+            int age = Integer.parseInt(request.getRequest());
+            user = new User(update.getMessage().getChat().getFirstName(), age);
+            Response startResponse = new TGResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getMessage().getChatId());
+            startResponse.getResponse();
+            isStartChecked = false;
+        }
+    }
 
     public Game mathGame() {
         return new MathGame();
     }
 
-    public void gameQuestion(Game game) {
+    public void gameQuestion(Game game, Update update) {
         long chatId = update.getMessage().getChatId();
-
         Response response = new TGResponse(TelegramBot.getConfig(),game.getQuestion(), chatId);
         response.getResponse();
     }
-
-    /**
-     * @param game    текущая игра
-     * @param request запрос/ответ пользователя
-     * @return string
-     */
     @Override
-    public String gameCompareResults(Game game, Request request) {
+    public String gameCompareResults(Game game, String userAnswer, Update update) {
         long chatId = update.getMessage().getChatId();
-
-        String userAnswer = request.getRequest();
         String[] splitedString = userAnswer.split(" ");
         if (Objects.equals(game.getResult(), userAnswer)) {
             Response response = new TGResponse(TelegramBot.getConfig(),"Верно, " + user.getName(), chatId);
@@ -113,14 +108,26 @@ public class TGHandler extends BaseHandler {
                 user.increaseNumberOfQuestions();
                 return "successfulCompare";
             } catch (NumberFormatException e) {
-                /*String r = handle(userAnswer);
-                if (Objects.equals(r, "exit"))
-                {
-                    return "exit";
-                }
-                return null; */
+                checkForCommand(userAnswer, update);
             }
         }
         return null;
     }
+
+    /**
+     * Функция для анализа комманды введённой пользователем при проверке ботом правильности ответа
+     * @param userMessage то, что ввёл пользователь в качестве ответа
+     * @param update данные пользователя
+     */
+    public void checkForCommand(String userMessage, Update update){
+        String[] splitedString = userMessage.split(" ");
+        String[] command = new String[2];
+        if (splitedString[0].charAt(0) == '/') {
+            Commands commandAnalyzer = new Commands();
+            command = commandAnalyzer.getCommand(splitedString, user);
+            Response response = new TGResponse(TelegramBot.getConfig(), user.getName() + ",\n" + command[0], update.getMessage().getChatId());
+            response.getResponse();
+        }
+    }
+
 }

@@ -1,7 +1,7 @@
 package tg.project.TelegramGameBot.service;
 
 /**
- * Ответ на пользовательский запрос
+ * Интерфейс для ответа на пользовательский запрос
  */
 public interface Response
 {

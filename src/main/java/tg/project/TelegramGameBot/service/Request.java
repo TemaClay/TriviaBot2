@@ -3,7 +3,7 @@ package tg.project.TelegramGameBot.service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
- * Запрос пользователя
+ * Интерфейс для запроса пользователя
  */
 public interface Request
 {

@@ -9,6 +9,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import tg.project.TelegramGameBot.service.TelegramBot;
 
+/**
+ * Класс отвечает за инициализацию бота Телеграм.
+ * Он прослушивает ContextRefreshedEvent и регистрирует бота в TelegramBotsApi
+ */
 @Component
 public class BotInitializer {
     @Autowired
