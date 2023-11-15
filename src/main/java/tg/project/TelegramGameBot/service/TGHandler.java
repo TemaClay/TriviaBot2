@@ -12,6 +12,7 @@ public class TGHandler extends BaseHandler {
 
     private static boolean isStartChecked = false;
     private static boolean isQuestionGiven = false;
+    private static boolean isCommandBeingTyped = false;
 
     private static Game game;
 
@@ -45,14 +46,17 @@ public class TGHandler extends BaseHandler {
             else {
                 String answer = update.getMessage().getText();
                 ex = gameCompareResults(game, answer, update);
+                if (isCommandBeingTyped){
+                    isCommandBeingTyped = false; /* проверка на команду, если была введена команда, то заново отправляем тот же пример и ждем новый запрос */
+                    gameQuestion(game,update);
+                    return;
+                }
                 isQuestionGiven = false;
             }
-        if (!isQuestionGiven) {
-            game = mathGame();
-            ex = null;
-            gameQuestion(game, update);
-            isQuestionGiven = true;
-        }
+        game = mathGame();
+        ex = null;
+        gameQuestion(game, update);
+        isQuestionGiven = true;
         //TODO: обработка полученной команды
 
     }
@@ -109,6 +113,7 @@ public class TGHandler extends BaseHandler {
                 return "successfulCompare";
             } catch (NumberFormatException e) {
                 checkForCommand(userAnswer, update);
+                isCommandBeingTyped = true;
             }
         }
         return null;
