@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class MathGame implements Game
 {
-    private int firstNumber;
-    private int secondNumber;
+    private final int firstNumber;
+    private final int secondNumber;
     private char operation;
     private int result;
     public MathGame() {
