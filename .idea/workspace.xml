@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Полностью реализована архитектура">
+    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Добавлены классы WordGame и WordGameQuestions для возможности генерации словесных вопросов">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/WordGame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/WordGameQuestions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/MathGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/MathGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TelegramBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TelegramBot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +27,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -47,14 +57,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kopte/Desktop/Java практики/bot проверка математики&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "QuestionChoose",
+    "last_opened_file_path": "C:/Users/kopte/Desktop/Java практики/bot проверка математики",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="TriviaBot1" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="TriviaBot1" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -120,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699629878643</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Полностью реализована архитектура">
+      <option name="closed" value="true" />
+      <created>1699629935064</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1699629935064</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,6 +179,7 @@
     <MESSAGE value="Добавлен класс User" />
     <MESSAGE value="Добавлена статистика ответов пользователя" />
     <MESSAGE value="Полностью реализована архитектура" />
-    <option name="LAST_COMMIT_MESSAGE" value="Полностью реализована архитектура" />
+    <MESSAGE value="Добавлены классы WordGame и WordGameQuestions для возможности генерации словесных вопросов" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлены классы WordGame и WordGameQuestions для возможности генерации словесных вопросов" />
   </component>
 </project>

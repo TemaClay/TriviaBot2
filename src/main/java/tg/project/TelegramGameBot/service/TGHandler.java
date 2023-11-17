@@ -9,7 +9,7 @@ public class TGHandler extends BaseHandler {
 
     private User user;
 
-    private Update update;
+    private final Update update;
 
     public TGHandler(Update update, BotConfig config) {
         this.update = update;
