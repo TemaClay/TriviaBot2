@@ -7,30 +7,37 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  */
 public abstract class BaseHandler
 {
+
     /**
-     * Обрабатывает запрос, не дожидаясь ответа.
+     * Работает с данными бользователя и выдает ответ
+     * @param update передаёт полученные данные пользователя в Телеграм
+     */
+    public abstract void handle(Update update);
+
+
+    /**
+     * Создает новую математическую игру
      *
-     * @param request запрос пользователя.
-     * @return
      */
-    /*public abstract String handle(String request, User user);
-    /*
-    /**
-     * Обрабатывает запрос и дожидается ответа.
-     * @param request запрос пользователя.
-     * @return ответ на запрос пользователя.
-     */
-
-    //public abstract Response handleWithResponse(String request);
-
-    public abstract String handle(Update update);
-
-
-
     public abstract Game mathGame();
 
-    public abstract void gameQuestion(Game game);
 
-    public abstract String gameCompareResults(Game game, Request request);
+    /**
+     * Задаёт вопрос пользователю
+     * @param game получает пример и результат игры
+     * @param update передаёт полученные данные пользователя в Телеграм
+     */
+    public abstract void gameQuestion(Game game, Update update);
+
+    /**
+     * Сравнивает результат между заверенным внутри объекта игры ответом и ответом пользователя.
+     * Если сравнение ответа и введённого пользователем ответа совпадает, выдает "верно"
+     * и добавляет 1 верный ответ в /result
+     * Если не может определить, что пользователь ввёл число, проверяет на команду через checkForCommand()
+     * @param game данные об игре
+     * @param userAnswer ответ игрока
+     * @param update передаёт полученные данные пользователя в Телеграм
+     */
+    public abstract String gameCompareResults(Game game, String userAnswer, Update update);
 
 }

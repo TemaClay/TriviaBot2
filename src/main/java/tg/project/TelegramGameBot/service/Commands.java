@@ -1,6 +1,9 @@
 package tg.project.TelegramGameBot.service;
 
-public class Command
+/**
+ * Класс, реализующий функцию анализа команд, отправленной пользователем
+ */
+public class Commands
 {
 
 
@@ -8,17 +11,12 @@ public class Command
     {
         String[] res = new String[2];
         switch (command[0]) {
-            case "/start":
-                res[0] = "Запуск бота...";
-                res[1] = "initiate";
-                break;
             case "/help":
-                res[0] = "Это помощь вы можете...";
+                res[0] = """
+                            Бот предствляет собой тривиальную игру, где нужно сосчитать результат предложенного примера
+                            /result - посмотреть количество Ваших правильных ответовю.
+                            """;
                 res[1] = null;
-                break;
-            case "/exit":
-                res[0] = "Пока!";
-                res[1] = "exit";
                 break;
             case "/result":
                 res[0] = "количество правильных ответов: " + user.getCorrectAnswers() + " из " + user.getNumberOfQuestions();

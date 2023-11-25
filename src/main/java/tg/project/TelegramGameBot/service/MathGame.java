@@ -2,6 +2,10 @@ package tg.project.TelegramGameBot.service;
 
 import java.util.Random;
 
+/**
+ * Создаёт пример, получаемый из двух псевдослучайных чисел и выборкой из 3 алгебраических
+ * операций: умножение, сложение, вычитание
+ */
 public class MathGame implements Game
 {
     private final int firstNumber;

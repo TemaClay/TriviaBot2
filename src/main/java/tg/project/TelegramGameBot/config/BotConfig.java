@@ -5,6 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+/**
+ * Класс конфигурации бота с получением свойств (имя, индивидуальный токен)
+ * для соединения
+ */
 @Configuration
 @PropertySource("application.properties")
 public class BotConfig {

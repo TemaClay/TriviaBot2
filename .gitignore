@@ -10,6 +10,7 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/workspace.xml
 *.iws
 *.iml
 *.ipr
@@ -23,11 +24,6 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
 
 ### NetBeans ###
 /nbproject/private/

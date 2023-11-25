@@ -8,11 +8,20 @@
         private final String respondingText;
         private final long chatId;
 
+        /** Конструктор
+         * @param config нужен для работы execute
+         * @param respondingText то, что нужно отправить
+         * @param chatId то, по какому ChatID отправить
+         */
         public TGResponse(BotConfig config, String respondingText, long chatId) {
             super(config);
             this.chatId = chatId;
             this.respondingText = respondingText;
         }
+
+        /**
+         * Функция, которая с помощью execute и получением конфигурации бота config отправляет запрос
+         */
         @Override
         public void getResponse() {
             SendMessage message = new SendMessage();
