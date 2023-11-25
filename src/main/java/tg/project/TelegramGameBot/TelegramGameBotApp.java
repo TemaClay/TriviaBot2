@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tg.project.TelegramGameBot.service.BaseHandler;
 import tg.project.TelegramGameBot.service.TGHandler;
 
+/**
+ * Запуск бота через фреймворк Spring
+ */
 @SpringBootApplication
 public class TelegramGameBotApp {
 

@@ -1,5 +1,9 @@
 package tg.project.TelegramGameBot.service;
 
+/**
+ * Класс пользователя, в котором хранится его имя, возраст, а также количество правильных ответов
+ * из общего количества ответов
+ */
 public class User
 {
     private String name;
