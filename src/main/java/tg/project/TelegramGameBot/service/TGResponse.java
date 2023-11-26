@@ -3,6 +3,7 @@
     import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
     import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
     import tg.project.TelegramGameBot.config.BotConfig;
+    import tg.project.TelegramGameBot.service.interfaces.Response;
 
     public class TGResponse extends TelegramBot implements Response {
         private final String respondingText;
