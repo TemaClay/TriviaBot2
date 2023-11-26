@@ -20,7 +20,7 @@ public abstract class BaseHandler
      * Создает новую математическую игру
      *
      */
-    public abstract Game mathGame();
+    public abstract Game getNewGame();
 
 
     /**
