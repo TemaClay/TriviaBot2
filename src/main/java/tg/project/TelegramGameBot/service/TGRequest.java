@@ -24,7 +24,7 @@ public class TGRequest implements Request {
             return update.getMessage().getText();
         }
         else if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getMessage().getText();
+            return update.getCallbackQuery().getData();
         }
         return null;
     }

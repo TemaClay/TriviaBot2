@@ -1,7 +1,9 @@
 package tg.project.TelegramGameBot.service;
 
 import org.glassfish.grizzly.utils.DelayedExecutor;
+import org.glassfish.grizzly.utils.ExceptionHandler;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import tg.project.TelegramGameBot.config.BotConfig;
 import tg.project.TelegramGameBot.service.interfaces.Game;
@@ -43,11 +45,14 @@ public class TGHandler extends BaseHandler {
 
         if (Objects.equals(userMessage, "/start") || !Objects.equals(botCondition, startConditions.INACTIVE)){
             newBotEntranceStartSequence(update);
-            if (!(Objects.equals(botCondition, startConditions.ONGOING_MATH_GAME ) || Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME))
-            return;
+            if (!(Objects.equals(botCondition, startConditions.ONGOING_MATH_GAME )
+                    || Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME)))
+                return;
         }
+        else return;
+
         if (!isQuestionGiven) {
-            game = GetNewGame();
+            game = getNewGame();
             ex = null;
             gameQuestion(game, update);
             isQuestionGiven = true;
@@ -63,13 +68,13 @@ public class TGHandler extends BaseHandler {
             }
             isQuestionGiven = false;
         }
-        Game game = new GetGame();
+        Game game = getNewGame();
         ex = null;
         gameQuestion(game, update);
         isQuestionGiven = true;
     }
 
-    public Game GetNewGame() {
+    public Game getNewGame() {
         switch (botCondition){
             case startConditions.ONGOING_MATH_GAME -> {
                 return new MathGame();
@@ -78,6 +83,7 @@ public class TGHandler extends BaseHandler {
                 return new WordGame();
             }
         }
+        return null;
     }
     /**
      * Функция, вызываемая при старте бота для генерации нового пользователя
@@ -89,19 +95,18 @@ public class TGHandler extends BaseHandler {
      * @param update получает данные о сообщении пользователя в телеграм
      */
     public void newBotEntranceStartSequence(Update update) {
+        if (Objects.equals(botCondition, startConditions.INACTIVE)) botCondition = startConditions.STARTING;
         switch (botCondition){
             case startConditions.STARTING -> {
                 Response ageQuestionResponse = new TGResponse(TelegramBot.getConfig(), update.getMessage().getChat().getFirstName() + ", сколько тебе лет?", update.getMessage().getChatId());
                 ageQuestionResponse.getResponse();
                 botCondition = startConditions.AGE_CHECKING;
+                break;
             }
             case startConditions.AGE_CHECKING -> {
                 Request request = new TGRequest(update);
                 int age = Integer.parseInt(request.getRequest());
                 user = new User(update.getMessage().getChat().getFirstName(), age);
-                new TGResponse(TelegramBot.getConfig(),"В какую игру хотите сыграть? На выбор: игра со случайными вопросами и игра, в которой нужно считать арифметические примеры", update.getMessage().getChatId());
-
-                List<InlineKeyboardButton> buttonsGameChoiceRow = new ArrayList<>();
 
                 InlineKeyboardButton inlineKeyboardButtonWordGame = new InlineKeyboardButton();
                 inlineKeyboardButtonWordGame.setText("Тривиа");
@@ -111,22 +116,41 @@ public class TGHandler extends BaseHandler {
                 inlineKeyboardButtonMathGame.setText("Математика");
                 inlineKeyboardButtonMathGame.setCallbackData("Button \"Математика\" has been pressed");
 
-                buttonsGameChoiceRow.add(inlineKeyboardButtonMathGame);
-                buttonsGameChoiceRow.add(inlineKeyboardButtonWordGame);
+                List<InlineKeyboardButton> inlineKeyboardButtonsRow1 = new ArrayList<>();
+                inlineKeyboardButtonsRow1.add(inlineKeyboardButtonMathGame);
+                inlineKeyboardButtonsRow1.add(inlineKeyboardButtonWordGame);
+
+                List<List<InlineKeyboardButton>> buttonsGameChoiceRows = new ArrayList<>();
+                buttonsGameChoiceRows.add(inlineKeyboardButtonsRow1);
+
+                InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+                inlineKeyboardMarkup.setKeyboard(buttonsGameChoiceRows);
+
+                Response gameAskingResponse = new TGResponse(TelegramBot.getConfig(),"В какую игру хотите сыграть? На выбор: игра со случайными вопросами и игра, в которой нужно считать арифметические примеры", inlineKeyboardMarkup, update.getMessage().getChatId());
+                gameAskingResponse.getResponse();
+
                 botCondition = startConditions.GAME_TYPE_CHECKING;
+                break;
             }
             case startConditions.GAME_TYPE_CHECKING -> {
                 Request request = new TGRequest(update);
                 if (Objects.equals(request.getRequest(), "Button \"Тривиа\" has been pressed")) botCondition = startConditions.ONGOING_WORD_GAME;
                 if (Objects.equals(request.getRequest(), "Button \"Математика\" has been pressed")) botCondition = startConditions.ONGOING_MATH_GAME;
-                Response startResponse = new TGResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getMessage().getChatId());
+                Response startResponse = new TGResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getCallbackQuery().getMessage().getChatId());
                 startResponse.getResponse();
+                break;
             }
         }
     }
 
     public void gameQuestion(Game game, Update update) {
-        long chatId = update.getMessage().getChatId();
+        long chatId;
+        if (update.hasMessage()){
+            chatId = update.getMessage().getChatId();
+        }
+        else {
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+        }
         Response response = new TGResponse(TelegramBot.getConfig(),game.getQuestion(), chatId);
         response.getResponse();
     }
