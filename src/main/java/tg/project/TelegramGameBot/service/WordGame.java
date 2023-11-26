@@ -2,6 +2,7 @@ package tg.project.TelegramGameBot.service;
 
 import java.util.Enumeration;
 import java.util.Random;
+import tg.project.TelegramGameBot.service.interfaces.Game;
 
 /**
  * Класс, выбирающий очередной вопрос из набора вопросов(класса WordGameQuestions)
