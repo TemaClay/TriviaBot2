@@ -1,6 +1,7 @@
 package tg.project.TelegramGameBot.service;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
+import tg.project.TelegramGameBot.service.interfaces.Request;
 
 
 /**
@@ -20,9 +21,10 @@ public class TGRequest implements Request {
     @Override
     public String getRequest() {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String messageText = update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
-            return messageText;
+            return update.getMessage().getText();
+        }
+        else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getMessage().getText();
         }
         return null;
     }
