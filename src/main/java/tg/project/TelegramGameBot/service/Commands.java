@@ -1,5 +1,10 @@
 package tg.project.TelegramGameBot.service;
 import java.io.*;
+import java.util.Objects;
+
+import static tg.project.TelegramGameBot.service.TGHandler.botCondition;
+import static tg.project.TelegramGameBot.service.TGHandler.startConditions.ONGOING_MATH_GAME;
+import static tg.project.TelegramGameBot.service.TGHandler.startConditions.ONGOING_WORD_GAME;
 
 /**
  * Класс, реализующий функцию анализа команд, отправленной пользователем
@@ -14,10 +19,14 @@ public class Commands
         switch (command[0]) {
             case "/help":
                 res[0] = """
-                            Бот предствляет собой тривиальную игру, где нужно сосчитать результат предложенного примера
-                            /result - посмотреть количество Ваших правильных ответов
-                            /report текст вопроса - пожаловаться на вопрос
-                            """;
+                        Бот предствляет собой игру, где нужно правильно отвечать на\s
+                        математические вопросы или на вопросы, проверяющие эрудицию.
+                        /result - посмотреть количество Ваших правильных ответов
+                        /report <полный текст вопроса> - пожаловаться на вопрос
+                        /change <Вид игры> - поменять тип игры. На выбор 2 варианта:\s
+                        "/change trivia" - меняет игру на викторину.
+                        "/change math" - меняет игру на решатель математических примеров.
+                        """;
                 res[1] = null;
                 break;
             case "/result":
@@ -30,15 +39,45 @@ public class Commands
                 StringBuilder text = new StringBuilder();
                 for (int i = 1; i < command.length; ++i)
                     text.append(command[i]).append(' ');
-                try(FileWriter writer = new FileWriter("Жалобы.txt", false))
-                {
+                try (FileWriter writer = new FileWriter("Жалобы.txt", false)) {
                     writer.write(String.valueOf(text) + '\n');
 
                     writer.flush();
-                }
-                catch(IOException ex){
+                } catch (IOException ex) {
 
                     System.out.println(ex.getMessage());
+                }
+                break;
+            case "/change":
+                try {
+                    switch (command[1]) {
+                        case "trivia":
+                            if (Objects.equals(botCondition, ONGOING_WORD_GAME)) {
+                                res[0] = "Игра уже установлена в этот режим";
+                            } else {
+                                TGHandler.setBotCondition(ONGOING_WORD_GAME);
+                                res[0] = "Игра будет установлена в режим 'Тривиа' после следующего вопроса.";
+                            }
+                            res[1] = null;
+                            break;
+                        case "math":
+                            if (Objects.equals(botCondition, ONGOING_MATH_GAME)) {
+                                res[0] = "Игра уже установлена в этот режим";
+                            } else {
+                                TGHandler.setBotCondition(ONGOING_MATH_GAME);
+                                res[0] = "Игра будет установлена в режим 'Математика' после следующего вопроса";
+                            }
+                            res[1] = null;
+                            break;
+                        default:
+                            res[0] = "Такого вида игры нет!";
+                            res[1] = null;
+                            break;
+                    }
+                } catch (Exception e) {
+                    res[0] = "Для /change требуется аргумент. Напишите /help для помощи";
+                    res[1] = null;
+                    break;
                 }
                 break;
             default:
