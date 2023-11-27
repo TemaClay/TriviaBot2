@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Merge">
+    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Merge функций кнопок, жалобы и выбора вопроса">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/WordGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/WordGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/WordGameQuestions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/WordGameQuestions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/interfaces/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/interfaces/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/mathgameutility/MathGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/mathgameutility/MathGame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +43,7 @@
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
         <option name="accountId" value="5e660a17-9d43-47f4-a723-13cb1b4fd28e" />
-        <option name="url" value="https://github.com/TemaClay/TriviaBot.git" />
+        <option name="url" value="https://github.com/TemaClay/TriviaBot2.git" />
       </UrlAndAccount>
     </option>
   </component>
@@ -52,18 +56,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;QuestionChoose&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kopte/Desktop/Java практики/bot проверка математики&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "QuestionChoose",
+    "last_opened_file_path": "C:/Users/kopte/Desktop/Java практики/bot проверка математики",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="TriviaBot1" />
@@ -168,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701074085422</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Merge функций кнопок, жалобы и выбора вопроса">
+      <option name="closed" value="true" />
+      <created>1701074378542</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1701074378542</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -205,6 +218,7 @@
     <MESSAGE value="Добавлены классы WordGame и WordGameQuestions для возможности генерации словесных вопросов" />
     <MESSAGE value="Переписана MathGame через enum в классе MathOperations" />
     <MESSAGE value="Merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge" />
+    <MESSAGE value="Merge функций кнопок, жалобы и выбора вопроса" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge функций кнопок, жалобы и выбора вопроса" />
   </component>
 </project>
