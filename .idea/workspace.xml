@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Вернул в исходную версию">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/WordGame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/WordGameQuestions.java" afterDir="false" />
+    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Добавил кнопки">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGEditResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/BaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/BaseHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGResponse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +45,9 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -57,22 +57,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "QuestionChoose",
-    "last_opened_file_path": "C:/Users/kopte/Desktop/Java практики/bot проверка математики",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;QuestionChoose&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kopte/Desktop/Java практики/bot проверка математики&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\timat\Downloads\TelegramGameBot\TelegramGameBot\src\main\java\tg\project\TelegramGameBot\service" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="tg.project.TelegramGameBot.service" />
     </key>
   </component>
   <component name="RunManager">
@@ -197,7 +200,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700998595129</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Добавил кнопки">
+      <option name="closed" value="true" />
+      <created>1701024857730</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1701024857730</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -251,7 +262,8 @@
     <MESSAGE value="Полностью реализована архитектура" />
     <MESSAGE value="Добавлены классы WordGame и WordGameQuestions для возможности генерации словесных вопросов" />
     <MESSAGE value="Вернул в исходную версию" />
-    <option name="LAST_COMMIT_MESSAGE" value="Вернул в исходную версию" />
+    <MESSAGE value="Добавил кнопки" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил кнопки" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -259,7 +271,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java</url>
           <line>56</line>
-          <option name="timeStamp" value="8" />
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

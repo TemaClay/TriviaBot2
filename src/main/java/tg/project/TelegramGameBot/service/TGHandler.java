@@ -74,6 +74,10 @@ public class TGHandler extends BaseHandler {
         isQuestionGiven = true;
     }
 
+
+    /**
+     *      Функция, создающая новую итерацию игры в зависимости от состояния игры, смотрит на botCondition
+     */
     public Game getNewGame() {
         switch (botCondition){
             case startConditions.ONGOING_MATH_GAME -> {
@@ -89,9 +93,9 @@ public class TGHandler extends BaseHandler {
      * Функция, вызываемая при старте бота для генерации нового пользователя
      * Нам нужно получить от пользователя /start,затем его возраст,затем игрок должен выбрать тип игры, поэтому функция воспроизводится в
      * несколько итераций, каждая меняет состояние бота в настоящем времени:
-     * 1) принимает /start, даёт на него ответ,
-     * 2) принимает возраст, создаёт пользователя
-     * 3) даёт на выбор игры, пользователь выбирает и бот переходит в конкретное состояние
+     * 1) принимает /start, даёт на него ответ, переводит бота в состояние AGE_CHECKING
+     * 2) принимает возраст, создаёт пользователя, переводит бота в состояние GAME_TYPE_CHECKING
+     * 3) даёт на выбор игры, пользователь выбирает и бот переходит в состояние, зависимое от игры (ONGOING_MATH_GAME, ONGOING_WORD_GAME)
      * @param update получает данные о сообщении пользователя в телеграм
      */
     public void newBotEntranceStartSequence(Update update) {
@@ -134,15 +138,25 @@ public class TGHandler extends BaseHandler {
             }
             case startConditions.GAME_TYPE_CHECKING -> {
                 Request request = new TGRequest(update);
-                if (Objects.equals(request.getRequest(), "Button \"Тривиа\" has been pressed")) botCondition = startConditions.ONGOING_WORD_GAME;
-                if (Objects.equals(request.getRequest(), "Button \"Математика\" has been pressed")) botCondition = startConditions.ONGOING_MATH_GAME;
-                Response startResponse = new TGResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getCallbackQuery().getMessage().getChatId());
+                if (Objects.equals(request.getRequest(), "Button \"Тривиа\" has been pressed")) {
+                    botCondition = startConditions.ONGOING_WORD_GAME;
+                }
+                if (Objects.equals(request.getRequest(), "Button \"Математика\" has been pressed")) {
+                    botCondition = startConditions.ONGOING_MATH_GAME;
+                }
+                Response startResponse = new TGEditResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getCallbackQuery().getMessage().getChatId(), update.getCallbackQuery().getMessage().getMessageId());
                 startResponse.getResponse();
                 break;
             }
         }
     }
 
+
+    /**
+     * Метод, отправляющий конкретный вопрос в конкретный чат
+     * @param game   получает пример и результат игры
+     * @param update передаёт полученные данные пользователя в Телеграм
+     */
     public void gameQuestion(Game game, Update update) {
         long chatId;
         if (update.hasMessage()){
