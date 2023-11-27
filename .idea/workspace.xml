@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Добавил кнопки">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGEditResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="Merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" afterDir="false" />
     </list>
@@ -26,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="db9425ce765b70df1fb1a6c7b03081b990026d29" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -45,9 +43,6 @@
       </UrlAndAccount>
     </option>
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -61,7 +56,6 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;QuestionChoose&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/kopte/Desktop/Java практики/bot проверка математики&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
@@ -70,28 +64,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\timat\Downloads\TelegramGameBot\TelegramGameBot\src\main\java\tg\project\TelegramGameBot\service" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="tg.project.TelegramGameBot.service" />
-    </key>
-  </component>
   <component name="RunManager">
-    <configuration name="TelegramGameBotApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="tg.project.TelegramGameBot.TelegramGameBotApp" />
-      <module name="TelegramGameBot" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tg.project.TelegramGameBot.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="TriviaBot1" />
       <method v="2">
@@ -105,11 +78,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.TelegramGameBotApp" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -184,47 +152,29 @@
       <option name="project" value="LOCAL" />
       <updated>1699629935064</updated>
     </task>
-    <task id="LOCAL-00009" summary="Вернул в исходную версию">
+    <task id="LOCAL-00009" summary="Переписана MathGame через enum в классе MathOperations">
       <option name="closed" value="true" />
-      <created>1700998519618</created>
+      <created>1701071270651</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1700998519618</updated>
+      <updated>1701071270652</updated>
     </task>
-    <task id="LOCAL-00010" summary="Вернул в исходную версию">
+    <task id="LOCAL-00010" summary="Merge">
       <option name="closed" value="true" />
-      <created>1700998595129</created>
+      <created>1701074085422</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1700998595129</updated>
+      <updated>1701074085422</updated>
     </task>
-    <task id="LOCAL-00011" summary="Добавил кнопки">
-      <option name="closed" value="true" />
-      <created>1701024857730</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1701024857730</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="OPEN_GENERIC_TABS">
-      <map>
-        <entry key="fb87f1c0-3d63-46c2-b727-7925e317cb78" value="TOOL_WINDOW" />
-      </map>
-    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-        <entry key="fb87f1c0-3d63-46c2-b727-7925e317cb78">
           <value>
             <State>
               <option name="FILTERS">
@@ -232,20 +182,12 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="HEAD" />
-                      </list>
-                    </value>
-                  </entry>
-                  <entry key="structure">
-                    <value>
-                      <list>
-                        <option value="dir:C:/Users/timat/Downloads/TelegramGameBot/TelegramGameBot/src/main/java" />
+                        <option value="QuestionChoose" />
                       </list>
                     </value>
                   </entry>
                 </map>
               </option>
-              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
             </State>
           </value>
         </entry>
@@ -261,19 +203,8 @@
     <MESSAGE value="Добавлена статистика ответов пользователя" />
     <MESSAGE value="Полностью реализована архитектура" />
     <MESSAGE value="Добавлены классы WordGame и WordGameQuestions для возможности генерации словесных вопросов" />
-    <MESSAGE value="Вернул в исходную версию" />
-    <MESSAGE value="Добавил кнопки" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил кнопки" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Переписана MathGame через enum в классе MathOperations" />
+    <MESSAGE value="Merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge" />
   </component>
 </project>

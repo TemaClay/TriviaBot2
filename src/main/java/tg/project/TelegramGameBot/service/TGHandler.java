@@ -80,10 +80,10 @@ public class TGHandler extends BaseHandler {
      */
     public Game getNewGame() {
         switch (botCondition){
-            case startConditions.ONGOING_MATH_GAME -> {
+            case ONGOING_MATH_GAME -> {
                 return new MathGame();
             }
-            case startConditions.ONGOING_WORD_GAME -> {
+            case ONGOING_WORD_GAME -> {
                 return new WordGame();
             }
         }
@@ -101,13 +101,13 @@ public class TGHandler extends BaseHandler {
     public void newBotEntranceStartSequence(Update update) {
         if (Objects.equals(botCondition, startConditions.INACTIVE)) botCondition = startConditions.STARTING;
         switch (botCondition){
-            case startConditions.STARTING -> {
+            case STARTING -> {
                 Response ageQuestionResponse = new TGResponse(TelegramBot.getConfig(), update.getMessage().getChat().getFirstName() + ", сколько тебе лет?", update.getMessage().getChatId());
                 ageQuestionResponse.getResponse();
                 botCondition = startConditions.AGE_CHECKING;
                 break;
             }
-            case startConditions.AGE_CHECKING -> {
+            case AGE_CHECKING -> {
                 Request request = new TGRequest(update);
                 int age = Integer.parseInt(request.getRequest());
                 user = new User(update.getMessage().getChat().getFirstName(), age);
@@ -136,7 +136,7 @@ public class TGHandler extends BaseHandler {
                 botCondition = startConditions.GAME_TYPE_CHECKING;
                 break;
             }
-            case startConditions.GAME_TYPE_CHECKING -> {
+            case GAME_TYPE_CHECKING -> {
                 Request request = new TGRequest(update);
                 if (Objects.equals(request.getRequest(), "Button \"Тривиа\" has been pressed")) {
                     botCondition = startConditions.ONGOING_WORD_GAME;
