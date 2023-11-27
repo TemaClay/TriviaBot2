@@ -1,7 +1,7 @@
 package tg.project.TelegramGameBot.service;
 
-import java.util.Enumeration;
-import java.util.Random;
+import java.util.*;
+
 import tg.project.TelegramGameBot.service.interfaces.Game;
 
 /**
@@ -17,7 +17,7 @@ public class WordGame implements Game
 
     public WordGame()
     {
-
+        /*
         int min = 0;
         int max = WordGameQuestions.countOfQuestions - 1;
 
@@ -26,15 +26,26 @@ public class WordGame implements Game
         int positionOfQuestion = min + Math.abs(rnd.nextInt()) % (max - min + 1);
 
         Enumeration<String> keys = WordGameQuestions.questions.keys();
-        String key;
+        String key = keys.nextElement();
+
         for (int i = 0; i < positionOfQuestion; ++i)
         {
-            keys.nextElement();
+            key = keys.nextElement();
         }
+        */
 
-        this.question = String.valueOf(keys);
+        // Создайте список ключей из словаря
+        List<String> keys = new ArrayList<>(Collections.list(WordGameQuestions.questions.keys()));
 
-        this.result = WordGameQuestions.questions.get(this.question);
+        // Сгенерируйте случайный индекс
+        Random rand = new Random();
+        int randomIndex = rand.nextInt(keys.size());
+
+
+
+        this.question = keys.get(randomIndex);
+
+        this.result = WordGameQuestions.questions.get(question);
     }
 
     @Override

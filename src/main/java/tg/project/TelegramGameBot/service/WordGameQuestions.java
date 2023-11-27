@@ -18,6 +18,7 @@ public class WordGameQuestions
     static
     {
         questions.put("Верхний цвет флага России", "белый");
+        questions.put("Средний цвет флага России", "синий");
         questions.put("Нижний цвет флага России", "красный");
         countOfQuestions = questions.size();
     }

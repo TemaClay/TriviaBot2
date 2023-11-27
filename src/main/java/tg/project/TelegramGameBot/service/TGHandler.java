@@ -170,15 +170,24 @@ public class TGHandler extends BaseHandler {
     }
     @Override
     public String gameCompareResults(Game game, String userAnswer, Update update) {
+
         long chatId = update.getMessage().getChatId();
         String[] splitedString = userAnswer.split(" ");
-        if (Objects.equals(game.getResult(), userAnswer)) {
-            Response response = new TGResponse(TelegramBot.getConfig(),"Верно, " + user.getName(), chatId);
+        if (Objects.equals(game.getResult().toLowerCase(), userAnswer.toLowerCase())) {
+            Response response = new TGResponse(TelegramBot.getConfig(), "Верно, " + user.getName(), chatId);
             response.getResponse();
             user.increaseCorrectAnswers();
             user.increaseNumberOfQuestions();
             return "successfulCompare";
-        } else {
+        }
+        else if (Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME))
+        {
+            Response response = new TGResponse(TelegramBot.getConfig(),"Неверно, " + user.getName(), chatId);
+            response.getResponse();
+            user.increaseNumberOfQuestions();
+            return "successfulCompare";
+        }
+        else {
             try {
                 int answer = Integer.parseInt(splitedString[0]);
                 Response response = new TGResponse(TelegramBot.getConfig(),"Неверно, " + user.getName(), chatId);
