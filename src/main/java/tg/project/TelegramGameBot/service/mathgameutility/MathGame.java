@@ -1,4 +1,6 @@
-package tg.project.TelegramGameBot.service;
+package tg.project.TelegramGameBot.service.mathgameutility;
+
+import tg.project.TelegramGameBot.service.interfaces.Game;
 
 import java.util.Random;
 
@@ -8,8 +10,8 @@ import java.util.Random;
  */
 public class MathGame implements Game
 {
-    private final int firstNumber;
-    private final int secondNumber;
+    private int firstNumber;
+    private int secondNumber;
     private char operation;
     private int result;
     public MathGame() {

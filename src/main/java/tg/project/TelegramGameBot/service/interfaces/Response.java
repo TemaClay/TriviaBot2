@@ -1,4 +1,4 @@
-package tg.project.TelegramGameBot.service;
+package tg.project.TelegramGameBot.service.interfaces;
 
 /**
  * Интерфейс для ответа на пользовательский запрос

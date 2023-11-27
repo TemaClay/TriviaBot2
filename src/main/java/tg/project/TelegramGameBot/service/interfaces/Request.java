@@ -1,4 +1,4 @@
-package tg.project.TelegramGameBot.service;
+package tg.project.TelegramGameBot.service.interfaces;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 

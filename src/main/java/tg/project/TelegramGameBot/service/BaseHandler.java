@@ -1,6 +1,7 @@
 package tg.project.TelegramGameBot.service;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
+import tg.project.TelegramGameBot.service.interfaces.Game;
 
 /**
  * Базовый обработчик запроса
@@ -19,7 +20,7 @@ public abstract class BaseHandler
      * Создает новую математическую игру
      *
      */
-    public abstract Game mathGame();
+    public abstract Game getNewGame();
 
 
     /**

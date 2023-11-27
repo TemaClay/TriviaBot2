@@ -1,8 +1,18 @@
 package tg.project.TelegramGameBot.service;
 
+import org.glassfish.grizzly.utils.DelayedExecutor;
+import org.glassfish.grizzly.utils.ExceptionHandler;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import tg.project.TelegramGameBot.config.BotConfig;
+import tg.project.TelegramGameBot.service.interfaces.Game;
+import tg.project.TelegramGameBot.service.interfaces.Request;
+import tg.project.TelegramGameBot.service.interfaces.Response;
+import tg.project.TelegramGameBot.service.mathgameutility.MathGame;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class TGHandler extends BaseHandler {
@@ -10,7 +20,10 @@ public class TGHandler extends BaseHandler {
     private User user;
     private Update update;
 
-    private static boolean isStartChecked = false;
+    private static enum startConditions{
+        INACTIVE, STARTING, AGE_CHECKING, GAME_TYPE_CHECKING, ONGOING_MATH_GAME, ONGOING_WORD_GAME
+    };
+    private static startConditions botCondition = startConditions.INACTIVE;
     private static boolean isQuestionGiven = false;
     private static boolean isCommandBeingTyped = false;
 
@@ -26,71 +39,132 @@ public class TGHandler extends BaseHandler {
 
     @Override
     public void handle(Update update) {
+        String ex;
         Request request = new TGRequest(update);
         String userMessage = request.getRequest();
 
-        if (Objects.equals(userMessage, "/start") || isStartChecked){
+        if (Objects.equals(userMessage, "/start") || !Objects.equals(botCondition, startConditions.INACTIVE)){
             newBotEntranceStartSequence(update);
-            if (isStartChecked) return;
-        }
-
-            String ex;
-
-            if (!isQuestionGiven) {
-                game = mathGame();
-                ex = null;
-                gameQuestion(game, update);
-                isQuestionGiven = true;
+            if (!(Objects.equals(botCondition, startConditions.ONGOING_MATH_GAME )
+                    || Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME)))
                 return;
         }
-            else {
-                String answer = update.getMessage().getText();
-                ex = gameCompareResults(game, answer, update);
-                if (isCommandBeingTyped){
-                    isCommandBeingTyped = false; /* проверка на команду, если была введена команда, то заново отправляем тот же пример и ждем новый запрос */
-                    gameQuestion(game,update);
-                    return;
-                }
-                isQuestionGiven = false;
+        else return;
+
+        if (!isQuestionGiven) {
+            game = getNewGame();
+            ex = null;
+            gameQuestion(game, update);
+            isQuestionGiven = true;
+            return;
+        }
+        else {
+            String answer = update.getMessage().getText();
+            ex = gameCompareResults(game, answer, update);
+            if (isCommandBeingTyped){
+                isCommandBeingTyped = false; /* проверка на команду, если была введена команда, то заново отправляем тот же пример и ждем новый запрос */
+                gameQuestion(game,update);
+                return;
             }
-        game = mathGame();
+            isQuestionGiven = false;
+        }
+        Game game = getNewGame();
         ex = null;
         gameQuestion(game, update);
         isQuestionGiven = true;
-        //TODO: обработка полученной команды
-
     }
+
 
     /**
+     *      Функция, создающая новую итерацию игры в зависимости от состояния игры, смотрит на botCondition
+     */
+    public Game getNewGame() {
+        switch (botCondition){
+            case startConditions.ONGOING_MATH_GAME -> {
+                return new MathGame();
+            }
+            case startConditions.ONGOING_WORD_GAME -> {
+                return new WordGame();
+            }
+        }
+        return null;
+    }
+    /**
      * Функция, вызываемая при старте бота для генерации нового пользователя
-     * Нам нужно получить от пользователя /start, а затем его возраст, поэтому функция воспроизводится в
-     * 2 итерации:
-     * 1) принимает /start, даёт на него ответ,
-     * 2) принимает возраст, создаёт пользователя
-     * @param update получает данные пользователя Телеграм
+     * Нам нужно получить от пользователя /start,затем его возраст,затем игрок должен выбрать тип игры, поэтому функция воспроизводится в
+     * несколько итераций, каждая меняет состояние бота в настоящем времени:
+     * 1) принимает /start, даёт на него ответ, переводит бота в состояние AGE_CHECKING
+     * 2) принимает возраст, создаёт пользователя, переводит бота в состояние GAME_TYPE_CHECKING
+     * 3) даёт на выбор игры, пользователь выбирает и бот переходит в состояние, зависимое от игры (ONGOING_MATH_GAME, ONGOING_WORD_GAME)
+     * @param update получает данные о сообщении пользователя в телеграм
      */
     public void newBotEntranceStartSequence(Update update) {
-        if (!isStartChecked) {
-            Response ageQuestionResponse = new TGResponse(TelegramBot.getConfig(), update.getMessage().getChat().getFirstName() + ", сколько тебе лет?", update.getMessage().getChatId());
-            ageQuestionResponse.getResponse();
-            isStartChecked = true;
+        if (Objects.equals(botCondition, startConditions.INACTIVE)) botCondition = startConditions.STARTING;
+        switch (botCondition){
+            case startConditions.STARTING -> {
+                Response ageQuestionResponse = new TGResponse(TelegramBot.getConfig(), update.getMessage().getChat().getFirstName() + ", сколько тебе лет?", update.getMessage().getChatId());
+                ageQuestionResponse.getResponse();
+                botCondition = startConditions.AGE_CHECKING;
+                break;
+            }
+            case startConditions.AGE_CHECKING -> {
+                Request request = new TGRequest(update);
+                int age = Integer.parseInt(request.getRequest());
+                user = new User(update.getMessage().getChat().getFirstName(), age);
+
+                InlineKeyboardButton inlineKeyboardButtonWordGame = new InlineKeyboardButton();
+                inlineKeyboardButtonWordGame.setText("Тривиа");
+                inlineKeyboardButtonWordGame.setCallbackData("Button \"Тривиа\" has been pressed");
+
+                InlineKeyboardButton inlineKeyboardButtonMathGame = new InlineKeyboardButton();
+                inlineKeyboardButtonMathGame.setText("Математика");
+                inlineKeyboardButtonMathGame.setCallbackData("Button \"Математика\" has been pressed");
+
+                List<InlineKeyboardButton> inlineKeyboardButtonsRow1 = new ArrayList<>();
+                inlineKeyboardButtonsRow1.add(inlineKeyboardButtonMathGame);
+                inlineKeyboardButtonsRow1.add(inlineKeyboardButtonWordGame);
+
+                List<List<InlineKeyboardButton>> buttonsGameChoiceRows = new ArrayList<>();
+                buttonsGameChoiceRows.add(inlineKeyboardButtonsRow1);
+
+                InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+                inlineKeyboardMarkup.setKeyboard(buttonsGameChoiceRows);
+
+                Response gameAskingResponse = new TGResponse(TelegramBot.getConfig(),"В какую игру хотите сыграть? На выбор: игра со случайными вопросами и игра, в которой нужно считать арифметические примеры", inlineKeyboardMarkup, update.getMessage().getChatId());
+                gameAskingResponse.getResponse();
+
+                botCondition = startConditions.GAME_TYPE_CHECKING;
+                break;
+            }
+            case startConditions.GAME_TYPE_CHECKING -> {
+                Request request = new TGRequest(update);
+                if (Objects.equals(request.getRequest(), "Button \"Тривиа\" has been pressed")) {
+                    botCondition = startConditions.ONGOING_WORD_GAME;
+                }
+                if (Objects.equals(request.getRequest(), "Button \"Математика\" has been pressed")) {
+                    botCondition = startConditions.ONGOING_MATH_GAME;
+                }
+                Response startResponse = new TGEditResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getCallbackQuery().getMessage().getChatId(), update.getCallbackQuery().getMessage().getMessageId());
+                startResponse.getResponse();
+                break;
+            }
+        }
+    }
+
+
+    /**
+     * Метод, отправляющий конкретный вопрос в конкретный чат
+     * @param game   получает пример и результат игры
+     * @param update передаёт полученные данные пользователя в Телеграм
+     */
+    public void gameQuestion(Game game, Update update) {
+        long chatId;
+        if (update.hasMessage()){
+            chatId = update.getMessage().getChatId();
         }
         else {
-            Request request = new TGRequest(update);
-            int age = Integer.parseInt(request.getRequest());
-            user = new User(update.getMessage().getChat().getFirstName(), age);
-            Response startResponse = new TGResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getMessage().getChatId());
-            startResponse.getResponse();
-            isStartChecked = false;
+            chatId = update.getCallbackQuery().getMessage().getChatId();
         }
-    }
-
-    public Game mathGame() {
-        return new MathGame();
-    }
-
-    public void gameQuestion(Game game, Update update) {
-        long chatId = update.getMessage().getChatId();
         Response response = new TGResponse(TelegramBot.getConfig(),game.getQuestion(), chatId);
         response.getResponse();
     }
