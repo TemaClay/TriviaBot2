@@ -14,6 +14,8 @@ public class MathGame implements Game
     private int secondNumber;
     private char operation;
     private int result;
+
+
     public MathGame() {
         int min = 1;
         int max = 1000;

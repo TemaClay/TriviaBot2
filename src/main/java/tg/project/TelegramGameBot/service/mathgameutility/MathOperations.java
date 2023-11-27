@@ -1,4 +1,4 @@
-package tg.project.TelegramGameBot.service;
+package tg.project.TelegramGameBot.service.mathgameutility;
 
 import java.util.Random;
 
