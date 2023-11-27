@@ -1,8 +1,9 @@
-package tg.project.TelegramGameBot.service;
+package tg.project.TelegramGameBot.service.wordgameutility;
 
 import java.util.*;
 
 import tg.project.TelegramGameBot.service.interfaces.Game;
+import tg.project.TelegramGameBot.service.wordgameutility.WordGameQuestions;
 
 /**
  * Класс, выбирающий очередной вопрос из набора вопросов(класса WordGameQuestions)
@@ -33,18 +34,10 @@ public class WordGame implements Game
             key = keys.nextElement();
         }
         */
-
-        // Создайте список ключей из словаря
         List<String> keys = new ArrayList<>(Collections.list(WordGameQuestions.questions.keys()));
-
-        // Сгенерируйте случайный индекс
         Random rand = new Random();
         int randomIndex = rand.nextInt(keys.size());
-
-
-
         this.question = keys.get(randomIndex);
-
         this.result = WordGameQuestions.questions.get(question);
     }
 

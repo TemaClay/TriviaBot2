@@ -1,7 +1,5 @@
 package tg.project.TelegramGameBot.service;
 
-import org.glassfish.grizzly.utils.DelayedExecutor;
-import org.glassfish.grizzly.utils.ExceptionHandler;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -10,6 +8,7 @@ import tg.project.TelegramGameBot.service.interfaces.Game;
 import tg.project.TelegramGameBot.service.interfaces.Request;
 import tg.project.TelegramGameBot.service.interfaces.Response;
 import tg.project.TelegramGameBot.service.mathgameutility.MathGame;
+import tg.project.TelegramGameBot.service.wordgameutility.WordGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +19,17 @@ public class TGHandler extends BaseHandler {
     private User user;
     private Update update;
 
-    private static enum startConditions{
+    protected static enum startConditions{
         INACTIVE, STARTING, AGE_CHECKING, GAME_TYPE_CHECKING, ONGOING_MATH_GAME, ONGOING_WORD_GAME
+        
     };
-    private static startConditions botCondition = startConditions.INACTIVE;
+    protected static startConditions botCondition = startConditions.INACTIVE;
+
+    protected static void setBotCondition(startConditions condition) {
+        botCondition = condition;
+    }
+
+
     private static boolean isQuestionGiven = false;
     private static boolean isCommandBeingTyped = false;
 
@@ -37,9 +43,14 @@ public class TGHandler extends BaseHandler {
         this.update = update;
     }
 
+    /**
+     * Метод, вызываемый при получении обновления от пользователя
+     * (сообщения, CallbackQuery и тд) и работающий
+     * с этими сообщениями
+     * @param update передаёт полученные данные о пользователе в Телеграм
+     */
     @Override
     public void handle(Update update) {
-        String ex;
         Request request = new TGRequest(update);
         String userMessage = request.getRequest();
 
@@ -53,14 +64,13 @@ public class TGHandler extends BaseHandler {
 
         if (!isQuestionGiven) {
             game = getNewGame();
-            ex = null;
             gameQuestion(game, update);
             isQuestionGiven = true;
             return;
         }
         else {
             String answer = update.getMessage().getText();
-            ex = gameCompareResults(game, answer, update);
+            gameCompareResults(game, answer, update);
             if (isCommandBeingTyped){
                 isCommandBeingTyped = false; /* проверка на команду, если была введена команда, то заново отправляем тот же пример и ждем новый запрос */
                 gameQuestion(game,update);
@@ -68,8 +78,7 @@ public class TGHandler extends BaseHandler {
             }
             isQuestionGiven = false;
         }
-        Game game = getNewGame();
-        ex = null;
+        game = getNewGame();
         gameQuestion(game, update);
         isQuestionGiven = true;
     }
@@ -112,6 +121,8 @@ public class TGHandler extends BaseHandler {
                 int age = Integer.parseInt(request.getRequest());
                 user = new User(update.getMessage().getChat().getFirstName(), age);
 
+
+                /*создание кнопок*/
                 InlineKeyboardButton inlineKeyboardButtonWordGame = new InlineKeyboardButton();
                 inlineKeyboardButtonWordGame.setText("Тривиа");
                 inlineKeyboardButtonWordGame.setCallbackData("Button \"Тривиа\" has been pressed");
@@ -144,7 +155,7 @@ public class TGHandler extends BaseHandler {
                 if (Objects.equals(request.getRequest(), "Button \"Математика\" has been pressed")) {
                     botCondition = startConditions.ONGOING_MATH_GAME;
                 }
-                Response startResponse = new TGEditResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, давай начнем!", update.getCallbackQuery().getMessage().getChatId(), update.getCallbackQuery().getMessage().getMessageId());
+                Response startResponse = new TGEditResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, подробности: /help. Давай начнем!", update.getCallbackQuery().getMessage().getChatId(), update.getCallbackQuery().getMessage().getMessageId());
                 startResponse.getResponse();
                 break;
             }
@@ -182,6 +193,8 @@ public class TGHandler extends BaseHandler {
         }
         else if (Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME))
         {
+            checkForCommand(userAnswer, update);
+            if (isCommandBeingTyped) return null;
             Response response = new TGResponse(TelegramBot.getConfig(),"Неверно, " + user.getName(), chatId);
             response.getResponse();
             user.increaseNumberOfQuestions();
@@ -196,7 +209,6 @@ public class TGHandler extends BaseHandler {
                 return "successfulCompare";
             } catch (NumberFormatException e) {
                 checkForCommand(userAnswer, update);
-                isCommandBeingTyped = true;
             }
         }
         return null;
@@ -215,7 +227,10 @@ public class TGHandler extends BaseHandler {
             command = commandAnalyzer.getCommand(splitedString, user);
             Response response = new TGResponse(TelegramBot.getConfig(), user.getName() + ",\n" + command[0], update.getMessage().getChatId());
             response.getResponse();
+            isCommandBeingTyped = true;
         }
+        else isCommandBeingTyped = false;
     }
+
 
 }
