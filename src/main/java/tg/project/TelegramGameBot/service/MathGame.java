@@ -20,16 +20,18 @@ public class MathGame implements Game
 
         this.firstNumber = min + Math.abs(rnd.nextInt()) % (max - min + 1);
         this.secondNumber = min + Math.abs(rnd.nextInt()) % (max - min + 1);
-        switch (Math.abs(rnd.nextInt()) % (3)) {
-            case 0:
+        String operation = MathOperations.getStringOfRandomOperation(MathOperations.getRandomOperation());
+
+        switch (operation) {
+            case "+":
                 this.operation = '+';
                 this.result = firstNumber + secondNumber;
                 break;
-            case 1:
+            case "-":
                 this.operation = '-';
                 this.result = firstNumber - secondNumber;
                 break;
-            case 2:
+            case "*":
                 this.operation = '*';
                 this.result = firstNumber * secondNumber;
                 break;
