@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="aboba">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/TGHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/wordgameutility/WordComparison.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/wordgameutility/WordComparison.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/wordgameutility/WordGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/wordgameutility/WordGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/wordgameutility/WordGameQuestions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/wordgameutility/WordGameQuestions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TemaClay&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="5e660a17-9d43-47f4-a723-13cb1b4fd28e" />
+        <option name="url" value="https://github.com/TemaClay/TriviaBot.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2XlolLE5ntxl47WLGkBxc6hQEO6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "onceQuestions",
+    "last_opened_file_path": "C:/Users/kopte/Desktop/Java практики/bot проверка математики",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="TelegramGameBotApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tg.project.TelegramGameBot.TelegramGameBotApp" />
+      <module name="TelegramGameBot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tg.project.TelegramGameBot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TelegramGameBotApp" />
+        <item itemvalue="Application.TelegramGameBotApp" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="72c18a9f-9587-4c88-899f-dfdba9f88644" name="Changes" comment="" />
+      <created>1699213178897</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699213178897</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Inintial Commit">
+      <option name="closed" value="true" />
+      <created>1699257967303</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699257967303</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Nerabocjiy">
+      <option name="closed" value="true" />
+      <created>1699262009713</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699262009714</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Figovy toge">
+      <option name="closed" value="true" />
+      <created>1699262983236</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1699262983236</updated>
+    </task>
+    <task id="LOCAL-00004" summary="All is working (base bot)">
+      <option name="closed" value="true" />
+      <created>1699266783925</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1699266783925</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Добавлен класс User">
+      <option name="closed" value="true" />
+      <created>1699268650744</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1699268650744</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Добавлена статистика ответов пользователя">
+      <option name="closed" value="true" />
+      <created>1699270992442</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1699270992442</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Полностью реализована архитектура">
+      <option name="closed" value="true" />
+      <created>1699629878643</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1699629878643</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Полностью реализована архитектура">
+      <option name="closed" value="true" />
+      <created>1699629935064</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1699629935064</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Переписана MathGame через enum в классе MathOperations">
+      <option name="closed" value="true" />
+      <created>1701071270651</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701071270652</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Merge">
+      <option name="closed" value="true" />
+      <created>1701074085422</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1701074085422</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Промежуточный апдейт 2">
+      <option name="closed" value="true" />
+      <created>1702400412762</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1702400412762</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Inintial Commit" />
+    <MESSAGE value="Nerabocjiy" />
+    <MESSAGE value="Figovy toge" />
+    <MESSAGE value="All is working (base bot)" />
+    <MESSAGE value="Добавлен класс User" />
+    <MESSAGE value="Добавлена статистика ответов пользователя" />
+    <MESSAGE value="Полностью реализована архитектура" />
+    <MESSAGE value="Добавлены классы WordGame и WordGameQuestions для возможности генерации словесных вопросов" />
+    <MESSAGE value="Переписана MathGame через enum в классе MathOperations" />
+    <MESSAGE value="Merge" />
+    <MESSAGE value="Промежуточный апдейт 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Промежуточный апдейт 2" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NumberFormatException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tg/project/TelegramGameBot/service/Commands.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="tg.project.TelegramGameBot.service.WordGame" memberName="question" />
+        <PinnedItemInfo parentTag="tg.project.TelegramGameBot.service.WordGame" memberName="result" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+</project>
