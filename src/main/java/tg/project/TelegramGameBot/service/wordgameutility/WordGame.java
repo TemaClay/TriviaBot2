@@ -18,27 +18,16 @@ public class WordGame implements Game
 
     public WordGame()
     {
-        /*
-        int min = 0;
-        int max = WordGameQuestions.countOfQuestions - 1;
-
-        Random rnd = new Random();
-
-        int positionOfQuestion = min + Math.abs(rnd.nextInt()) % (max - min + 1);
-
-        Enumeration<String> keys = WordGameQuestions.questions.keys();
-        String key = keys.nextElement();
-
-        for (int i = 0; i < positionOfQuestion; ++i)
-        {
-            key = keys.nextElement();
-        }
-        */
         List<String> keys = new ArrayList<>(Collections.list(WordGameQuestions.questions.keys()));
         Random rand = new Random();
-        int randomIndex = rand.nextInt(keys.size());
+        int randomIndex;
+        do
+        {
+            randomIndex = rand.nextInt(keys.size());
+        } while (Objects.equals(WordGameQuestions.questions.get(keys.get(randomIndex))[1], "0"));
+
         this.question = keys.get(randomIndex);
-        this.result = WordGameQuestions.questions.get(question);
+        this.result = WordGameQuestions.questions.get(question)[0];
     }
 
     @Override
