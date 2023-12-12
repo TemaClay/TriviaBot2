@@ -1,10 +1,5 @@
 package tg.project.TelegramGameBot.service;
 import java.io.*;
-import java.util.Objects;
-
-import static tg.project.TelegramGameBot.service.TGHandler.botCondition;
-import static tg.project.TelegramGameBot.service.TGHandler.startConditions.ONGOING_MATH_GAME;
-import static tg.project.TelegramGameBot.service.TGHandler.startConditions.ONGOING_WORD_GAME;
 
 /**
  * Класс, реализующий функцию анализа команд, отправленной пользователем
@@ -13,31 +8,30 @@ public class Commands
 {
 
 
-    public String[] getCommand(String[] command, User user)
+    public Object[] getCommand(String[] command, User user)
     {
-        String[] res = new String[2];
+        Object[] res = new Object[2];
         switch (command[0]) {
             case "/exit":
                 res[0] = """
                         До скорых встреч!
                         """;
-                res[1] = "NEEDTOEXIT";
+                res[1] = TGHandler.commandAction.COMMAND_EXIT;
                 break;
             case "/help":
                 res[0] = """
                         Бот предствляет собой игру, где нужно правильно отвечать на\s
                         математические вопросы или на вопросы, проверяющие эрудицию.
-                        /result - посмотреть количество Ваших правильных ответов
+                        /result - посмотреть количество Вашу статистику.
                         /report <полный текст вопроса> - пожаловаться на вопрос
-                        /change <Вид игры> - поменять тип игры. На выбор 2 варианта:\s
-                        "/change trivia" - меняет игру на викторину.
-                        "/change math" - меняет игру на решатель математических примеров.
+                        /change - поменять тип игры. После ответа не предыдущий вопрос у Вас появится окошко, где Вы сможете выбрать интересующую Вас игру.
+                        /exit - выход из бота. Внимание: Ваша статистика в /result будет удалена!
                         """;
-                res[1] = null;
+                res[1] = TGHandler.commandAction.COMMAND_DEFAULT;
                 break;
             case "/result":
                 res[0] = "количество правильных ответов: " + user.getCorrectAnswers() + " из " + user.getNumberOfQuestions();
-                res[1] = null;
+                res[1] = TGHandler.commandAction.COMMAND_DEFAULT;
                 break;
             case "/report":
                 res[0] = "приносим свои извинения, обязательно проверим вопрос";
@@ -52,43 +46,16 @@ public class Commands
 
                     System.out.println(ex.getMessage());
                 }
-                res[1] = null;
+                res[1] = TGHandler.commandAction.COMMAND_DEFAULT;
                 break;
             case "/change":
-                try {
-                    switch (command[1]) {
-                        case "trivia":
-                            if (Objects.equals(botCondition, ONGOING_WORD_GAME)) {
-                                res[0] = "Игра уже установлена в этот режим";
-                            } else {
-                                TGHandler.setBotCondition(ONGOING_WORD_GAME);
-                                res[0] = "Игра будет установлена в режим 'Тривиа' после следующего вопроса.";
-                            }
-                            res[1] = "GameSwitched";
-                            break;
-                        case "math":
-                            if (Objects.equals(botCondition, ONGOING_MATH_GAME)) {
-                                res[0] = "Игра уже установлена в этот режим";
-                            } else {
-                                TGHandler.setBotCondition(ONGOING_MATH_GAME);
-                                res[0] = "Игра будет установлена в режим 'Математика' после следующего вопроса";
-                            }
-                            res[1] = "GameSwitched";
-                            break;
-                        default:
-                            res[0] = "Такого вида игры нет!";
-                            res[1] = null;
-                            break;
-                    }
-                } catch (Exception e) {
-                    res[0] = "Для /change требуется аргумент. Напишите /help для помощи";
-                    res[1] = null;
-                    break;
-                }
+                if (TGHandler.botCondition == TGHandler.startConditions.CHANGING_GAME_TYPE) res[0] = "Вы уже находитесь в состоянии изменения игры. Ответьте на этот вопрос и появится окошко с выбором новой игры.";
+                else res[0] = "Вы сможете выбрать новый режим после следующего вопроса";
+                res[1] = TGHandler.commandAction.COMMAND_CHANGEGAME;
                 break;
             default:
                 res[0] = "Неверная команда";
-                res[1] = null;
+                res[1] = TGHandler.commandAction.COMMAND_DEFAULT;
                 break;
         }
         return res;

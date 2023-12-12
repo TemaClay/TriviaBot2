@@ -19,8 +19,22 @@ public class TGHandler extends BaseHandler {
     private User user;
     private Update update;
 
+    /**
+     * Состояния бота во время функционирования
+     * INACTIVE - бот не активирован пользователем, т.е не прописана команда /start.
+     * STARTING - боту была прописана команда /start.
+     * AGE_CHECKING - этап генерации экземпляра пользователя
+     * GAME_TYPE_CHECKING - этап выбора режима игры пользователем.
+     * ONGOING_MATH_GAME/WORD_GAME - бот задаёт вопросы в зависимости от того, какую игры выбрал пользователь.
+     * CHANGING_GAME_TYPE - пользователь находится в состоянии смены режима игры (команда /change)
+     */
     protected static enum startConditions{
-        INACTIVE, STARTING, AGE_CHECKING, GAME_TYPE_CHECKING, ONGOING_MATH_GAME, ONGOING_WORD_GAME
+        INACTIVE, STARTING,
+        AGE_CHECKING,
+        GAME_TYPE_CHECKING,
+        ONGOING_MATH_GAME,
+        CHANGING_GAME_TYPE,
+        ONGOING_WORD_GAME
         
     }
     protected static startConditions botCondition = startConditions.INACTIVE;
@@ -28,13 +42,21 @@ public class TGHandler extends BaseHandler {
         botCondition = condition;
     }
 
-    protected static enum compareResultConditions{
+
+    /**
+     * Возможные доп. действия после работы метода gameCompareResults
+     * NO_COMPARE - состояние до инициализации gameCompareResults и во время работы функции
+     * SUCCESS - успешное сравнение, на ввод пользователем не была отправлена команда
+     * COMMAND_DEFAULT - успешная инициализация команды вместо сравнения, дополнительных действий не требуется
+     * COMMAND_EXIT - успешная инициализация команды вместо сравнения, требуется совершить выход из бота
+     * COMMAND_CHANGEGAME - успешная инициализация команды вместо сравнения, требуется совершить смену режима игры
+     */
+    public static enum commandAction {
         NO_COMPARE, SUCCESS, COMMAND_DEFAULT, COMMAND_EXIT, COMMAND_CHANGEGAME
     }
+    private static commandAction actionCondition = commandAction.NO_COMPARE;
 
-    private static compareResultConditions compareCondition = compareResultConditions.NO_COMPARE;
-
-    private static boolean isQuestionGiven = false;
+    private static boolean isFirstQuestionGiven = false;
 
     private static Game game;
 
@@ -58,30 +80,32 @@ public class TGHandler extends BaseHandler {
         String userMessage = request.getRequest();
         if (Objects.equals(userMessage, "/start") || !Objects.equals(botCondition, startConditions.INACTIVE)){
             newBotEntranceStartSequence(update);
-            if (!(Objects.equals(botCondition, startConditions.ONGOING_MATH_GAME )
-                    || Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME)))
-                return;
+            if (!(Objects.equals(botCondition, startConditions.ONGOING_MATH_GAME ) || (Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME)))) return;
         }
         else return;
 
-        if (!isQuestionGiven) {
+        if (!isFirstQuestionGiven) {
             game = getNewGame();
             gameQuestion(game, update);
-            isQuestionGiven = true;
+            isFirstQuestionGiven = true;
             return;
         }
         else {
             String answer = update.getMessage().getText();
             gameCompareResults(game, answer, update);
-            switch (compareCondition){
-                case compareResultConditions.COMMAND_CHANGEGAME,
-                        compareResultConditions.COMMAND_DEFAULT -> {
+            switch (actionCondition){
+                case commandAction.COMMAND_DEFAULT -> {
                     gameQuestion(game, update);
                     return;
                 }
-                case compareResultConditions.COMMAND_EXIT -> {
-                    isQuestionGiven = false;
+                case commandAction.COMMAND_EXIT -> {
+                    isFirstQuestionGiven = false;
                     botCondition = startConditions.INACTIVE;
+                    return;
+                }
+                case commandAction.COMMAND_CHANGEGAME -> {
+                    gameQuestion(game, update);
+                    botCondition = startConditions.CHANGING_GAME_TYPE;
                     return;
                 }
                 default -> {
@@ -91,7 +115,7 @@ public class TGHandler extends BaseHandler {
         }
         game = getNewGame();
         gameQuestion(game, update);
-        isQuestionGiven = true;
+        isFirstQuestionGiven = true;
     }
 
 
@@ -111,7 +135,7 @@ public class TGHandler extends BaseHandler {
     }
     /**
      * Функция, вызываемая при старте бота для генерации нового пользователя
-     * Нам нужно получить от пользователя /start,затем его возраст,затем игрок должен выбрать тип игры, поэтому функция воспроизводится в
+     * Нам нужно получить от пользователя /start, затем его возраст, затем игрок должен выбрать тип игры, поэтому функция воспроизводится в
      * несколько итераций, каждая меняет состояние бота в настоящем времени:
      * 1) принимает /start, даёт на него ответ, переводит бота в состояние AGE_CHECKING
      * 2) принимает возраст, создаёт пользователя, переводит бота в состояние GAME_TYPE_CHECKING
@@ -119,7 +143,7 @@ public class TGHandler extends BaseHandler {
      * @param update получает данные о сообщении пользователя в телеграм
      */
     public void newBotEntranceStartSequence(Update update) {
-        if (Objects.equals(botCondition, startConditions.INACTIVE)) botCondition = startConditions.STARTING;
+        if (Objects.equals(botCondition,startConditions.INACTIVE)) botCondition = startConditions.STARTING;
         switch (botCondition){
             case STARTING -> {
                 Response ageQuestionResponse = new TGResponse(TelegramBot.getConfig(), update.getMessage().getChat().getFirstName() + ", сколько тебе лет?", update.getMessage().getChatId());
@@ -133,7 +157,7 @@ public class TGHandler extends BaseHandler {
                 user = new User(update.getMessage().getChat().getFirstName(), age);
 
                 /*создание кнопок*/
-                final Response gameAskingResponse = responseWithTriviaMathButtonsBuilder(update);
+                Response gameAskingResponse = responseWithTriviaMathButtonsBuilder(update);
                 gameAskingResponse.getResponse();
 
                 botCondition = startConditions.GAME_TYPE_CHECKING;
@@ -147,14 +171,53 @@ public class TGHandler extends BaseHandler {
                 if (Objects.equals(request.getRequest(), "Button \"Математика\" has been pressed")) {
                     botCondition = startConditions.ONGOING_MATH_GAME;
                 }
-                Response startResponse = new TGEditResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, подробности: /help. Давай начнем!", update.getCallbackQuery().getMessage().getChatId(), update.getCallbackQuery().getMessage().getMessageId());
+
+                Response startResponse;
+                if (Objects.equals(actionCondition,commandAction.COMMAND_CHANGEGAME)) { //GameTypeChecking вызывается в 2 вариантах: запуск бота и прогон команды /change. Поэтому здесь 2 варианта обратного сообщения.
+                    startResponse = new TGEditResponse(TelegramBot.getConfig(), "Режим установлен", update.getCallbackQuery().getMessage().getChatId(), update.getCallbackQuery().getMessage().getMessageId());
+                    actionCondition = commandAction.NO_COMPARE;
+                    isFirstQuestionGiven = false;
+                }
+                else startResponse = new TGEditResponse(TelegramBot.getConfig(), "Это бот для участия в викторине, подробности: /help. Давай начнем!", update.getCallbackQuery().getMessage().getChatId(), update.getCallbackQuery().getMessage().getMessageId());
                 startResponse.getResponse();
                 break;
+            }
+            /*
+             * Этот тип игры, в отличие от предыдущих в методе, вызывается во время использования команды /change
+             * Для того, чтобы грамотно осуществлять работу команд во время этапа перехода на другой вид игры
+             * (пользователь должен ответить на вопрос прежде чем выбрать новый вид),
+             * в этом виде переписано как должны вести себя команды.
+             * В состоянии перехода в другой вид игры, игрок постоянно проваливается в этот case, пока не ответит на последний вопрос.
+             */
+            case CHANGING_GAME_TYPE ->{
+                String answer = update.getMessage().getText();
+                gameCompareResults(game, answer, update);
+                switch (actionCondition) {
+                    case commandAction.COMMAND_DEFAULT, commandAction.COMMAND_CHANGEGAME -> {
+                        gameQuestion(game, update);
+                        return;
+                    }
+                    case commandAction.COMMAND_EXIT -> {
+                        isFirstQuestionGiven = false;
+                        botCondition = startConditions.INACTIVE;
+                        return;
+                    }
+                    default -> {
+                        break;
+                    }
+                }
+                    if (Objects.equals(actionCondition,commandAction.SUCCESS)) { //Если пользователь ввёл не команду, а ответил на вопрос, то запускается смена игры
+                        Response gameAskingResponse = responseWithTriviaMathButtonsBuilder(update);
+                        gameAskingResponse.getResponse();
+                        botCondition = startConditions.GAME_TYPE_CHECKING;
+                        actionCondition = commandAction.COMMAND_CHANGEGAME;
+                    }
+                    break;
             }
         }
     }
 
-    private static Response responseWithTriviaMathButtonsBuilder(Update update) {
+    private Response responseWithTriviaMathButtonsBuilder(Update update) {
         InlineKeyboardButton inlineKeyboardButtonWordGame = new InlineKeyboardButton();
         inlineKeyboardButtonWordGame.setText("Тривиа");
         inlineKeyboardButtonWordGame.setCallbackData("Button \"Тривиа\" has been pressed");
@@ -203,13 +266,13 @@ public class TGHandler extends BaseHandler {
             response.getResponse();
             user.increaseCorrectAnswers();
         } else {
-                compareCondition = checkForCommand(userAnswer, update);
-                if (!Objects.equals(compareCondition, compareResultConditions.NO_COMPARE)) return;
+                actionCondition = checkForCommand(userAnswer, update);
+                if (!Objects.equals(actionCondition, commandAction.NO_COMPARE)) return;
                 response = new TGResponse(TelegramBot.getConfig(), "Неверно, " + user.getName() + ".\nПравильный ответ: " + game.getResult(), chatId);
                 response.getResponse();
         }
         user.increaseNumberOfQuestions();
-        compareCondition = compareResultConditions.SUCCESS;
+        actionCondition = commandAction.SUCCESS;
     }
 
     /**
@@ -217,25 +280,16 @@ public class TGHandler extends BaseHandler {
      * @param userMessage то, что ввёл пользователь в качестве ответа
      * @param update данные пользователя
      */
-    public compareResultConditions checkForCommand(String userMessage, Update update){
+    public commandAction checkForCommand(String userMessage, Update update){
         String[] splitedString = userMessage.split(" ");
-        String[] command;
+        Object[] command;
         if (splitedString[0].charAt(0) == '/') {
             Commands commandAnalyzer = new Commands();
             command = commandAnalyzer.getCommand(splitedString, user);
             Response response = new TGResponse(TelegramBot.getConfig(), user.getName() + ",\n" + command[0], update.getMessage().getChatId());
             response.getResponse();
-            switch (command[1]){
-                case null:
-                    return compareResultConditions.COMMAND_DEFAULT;
-                case  "GameSwitched":
-                    return compareResultConditions.COMMAND_CHANGEGAME;
-                case "NEEDTOEXIT":
-                    return compareResultConditions.COMMAND_EXIT;
-                default:
-                    break;
-            }
+            return (commandAction) command[1];
         }
-        return compareResultConditions.NO_COMPARE;
+        return commandAction.NO_COMPARE;
     }
 }
