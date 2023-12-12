@@ -17,12 +17,6 @@ public class Commands
     {
         String[] res = new String[2];
         switch (command[0]) {
-            case "/exit":
-                res[0] = """
-                        До скорых встреч!
-                        """;
-                res[1] = "NEEDTOEXIT";
-                break;
             case "/help":
                 res[0] = """
                         Бот предствляет собой игру, где нужно правильно отвечать на\s
@@ -41,6 +35,7 @@ public class Commands
                 break;
             case "/report":
                 res[0] = "приносим свои извинения, обязательно проверим вопрос";
+                res[1] = null;
                 StringBuilder text = new StringBuilder();
                 for (int i = 1; i < command.length; ++i)
                     text.append(command[i]).append(' ');
@@ -52,7 +47,6 @@ public class Commands
 
                     System.out.println(ex.getMessage());
                 }
-                res[1] = null;
                 break;
             case "/change":
                 try {
@@ -64,7 +58,7 @@ public class Commands
                                 TGHandler.setBotCondition(ONGOING_WORD_GAME);
                                 res[0] = "Игра будет установлена в режим 'Тривиа' после следующего вопроса.";
                             }
-                            res[1] = "GameSwitched";
+                            res[1] = null;
                             break;
                         case "math":
                             if (Objects.equals(botCondition, ONGOING_MATH_GAME)) {
@@ -73,7 +67,7 @@ public class Commands
                                 TGHandler.setBotCondition(ONGOING_MATH_GAME);
                                 res[0] = "Игра будет установлена в режим 'Математика' после следующего вопроса";
                             }
-                            res[1] = "GameSwitched";
+                            res[1] = null;
                             break;
                         default:
                             res[0] = "Такого вида игры нет!";

@@ -22,19 +22,16 @@ public class TGHandler extends BaseHandler {
     protected static enum startConditions{
         INACTIVE, STARTING, AGE_CHECKING, GAME_TYPE_CHECKING, ONGOING_MATH_GAME, ONGOING_WORD_GAME
         
-    }
+    };
     protected static startConditions botCondition = startConditions.INACTIVE;
+
     protected static void setBotCondition(startConditions condition) {
         botCondition = condition;
     }
 
-    protected static enum compareResultConditions{
-        NO_COMPARE, SUCCESS, COMMAND_DEFAULT, COMMAND_EXIT, COMMAND_CHANGEGAME
-    }
-
-    private static compareResultConditions compareCondition = compareResultConditions.NO_COMPARE;
 
     private static boolean isQuestionGiven = false;
+    private static boolean isCommandBeingTyped = false;
 
     private static Game game;
 
@@ -56,6 +53,7 @@ public class TGHandler extends BaseHandler {
     public void handle(Update update) {
         Request request = new TGRequest(update);
         String userMessage = request.getRequest();
+
         if (Objects.equals(userMessage, "/start") || !Objects.equals(botCondition, startConditions.INACTIVE)){
             newBotEntranceStartSequence(update);
             if (!(Objects.equals(botCondition, startConditions.ONGOING_MATH_GAME )
@@ -73,21 +71,12 @@ public class TGHandler extends BaseHandler {
         else {
             String answer = update.getMessage().getText();
             gameCompareResults(game, answer, update);
-            switch (compareCondition){
-                case compareResultConditions.COMMAND_CHANGEGAME,
-                        compareResultConditions.COMMAND_DEFAULT -> {
-                    gameQuestion(game, update);
-                    return;
-                }
-                case compareResultConditions.COMMAND_EXIT -> {
-                    isQuestionGiven = false;
-                    botCondition = startConditions.INACTIVE;
-                    return;
-                }
-                default -> {
-                    break;
-                }
+            if (isCommandBeingTyped){
+                isCommandBeingTyped = false; /* проверка на команду, если была введена команда, то заново отправляем тот же пример и ждем новый запрос */
+                gameQuestion(game,update);
+                return;
             }
+            isQuestionGiven = false;
         }
         game = getNewGame();
         gameQuestion(game, update);
@@ -132,8 +121,27 @@ public class TGHandler extends BaseHandler {
                 int age = Integer.parseInt(request.getRequest());
                 user = new User(update.getMessage().getChat().getFirstName(), age);
 
+
                 /*создание кнопок*/
-                final Response gameAskingResponse = responseWithTriviaMathButtonsBuilder(update);
+                InlineKeyboardButton inlineKeyboardButtonWordGame = new InlineKeyboardButton();
+                inlineKeyboardButtonWordGame.setText("Тривиа");
+                inlineKeyboardButtonWordGame.setCallbackData("Button \"Тривиа\" has been pressed");
+
+                InlineKeyboardButton inlineKeyboardButtonMathGame = new InlineKeyboardButton();
+                inlineKeyboardButtonMathGame.setText("Математика");
+                inlineKeyboardButtonMathGame.setCallbackData("Button \"Математика\" has been pressed");
+
+                List<InlineKeyboardButton> inlineKeyboardButtonsRow1 = new ArrayList<>();
+                inlineKeyboardButtonsRow1.add(inlineKeyboardButtonMathGame);
+                inlineKeyboardButtonsRow1.add(inlineKeyboardButtonWordGame);
+
+                List<List<InlineKeyboardButton>> buttonsGameChoiceRows = new ArrayList<>();
+                buttonsGameChoiceRows.add(inlineKeyboardButtonsRow1);
+
+                InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+                inlineKeyboardMarkup.setKeyboard(buttonsGameChoiceRows);
+
+                Response gameAskingResponse = new TGResponse(TelegramBot.getConfig(),"В какую игру хотите сыграть? На выбор: игра со случайными вопросами и игра, в которой нужно считать арифметические примеры", inlineKeyboardMarkup, update.getMessage().getChatId());
                 gameAskingResponse.getResponse();
 
                 botCondition = startConditions.GAME_TYPE_CHECKING;
@@ -154,28 +162,6 @@ public class TGHandler extends BaseHandler {
         }
     }
 
-    private static Response responseWithTriviaMathButtonsBuilder(Update update) {
-        InlineKeyboardButton inlineKeyboardButtonWordGame = new InlineKeyboardButton();
-        inlineKeyboardButtonWordGame.setText("Тривиа");
-        inlineKeyboardButtonWordGame.setCallbackData("Button \"Тривиа\" has been pressed");
-
-        InlineKeyboardButton inlineKeyboardButtonMathGame = new InlineKeyboardButton();
-        inlineKeyboardButtonMathGame.setText("Математика");
-        inlineKeyboardButtonMathGame.setCallbackData("Button \"Математика\" has been pressed");
-
-        List<InlineKeyboardButton> inlineKeyboardButtonsRow1 = new ArrayList<>();
-        inlineKeyboardButtonsRow1.add(inlineKeyboardButtonMathGame);
-        inlineKeyboardButtonsRow1.add(inlineKeyboardButtonWordGame);
-
-        List<List<InlineKeyboardButton>> buttonsGameChoiceRows = new ArrayList<>();
-        buttonsGameChoiceRows.add(inlineKeyboardButtonsRow1);
-
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.setKeyboard(buttonsGameChoiceRows);
-
-        return new TGResponse(TelegramBot.getConfig(),"В какую игру хотите сыграть? На выбор: игра со случайными вопросами и игра, в которой нужно считать арифметические примеры", inlineKeyboardMarkup, update.getMessage().getChatId());
-    }
-
 
     /**
      * Метод, отправляющий конкретный вопрос в конкретный чат
@@ -194,22 +180,38 @@ public class TGHandler extends BaseHandler {
         response.getResponse();
     }
     @Override
-    public void gameCompareResults(Game game, String userAnswer, Update update) {
-        Response response;
+    public String gameCompareResults(Game game, String userAnswer, Update update) {
+
         long chatId = update.getMessage().getChatId();
         String[] splitedString = userAnswer.split(" ");
         if (Objects.equals(game.getResult().toLowerCase(), userAnswer.toLowerCase())) {
-            response = new TGResponse(TelegramBot.getConfig(), "Верно, " + user.getName(), chatId);
+            Response response = new TGResponse(TelegramBot.getConfig(), "Верно, " + user.getName(), chatId);
             response.getResponse();
             user.increaseCorrectAnswers();
-        } else {
-                compareCondition = checkForCommand(userAnswer, update);
-                if (!Objects.equals(compareCondition, compareResultConditions.NO_COMPARE)) return;
-                response = new TGResponse(TelegramBot.getConfig(), "Неверно, " + user.getName() + ".\nПравильный ответ: " + game.getResult(), chatId);
-                response.getResponse();
+            user.increaseNumberOfQuestions();
+            return "successfulCompare";
         }
-        user.increaseNumberOfQuestions();
-        compareCondition = compareResultConditions.SUCCESS;
+        else if (Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME))
+        {
+            checkForCommand(userAnswer, update);
+            if (isCommandBeingTyped) return null;
+            Response response = new TGResponse(TelegramBot.getConfig(),"Неверно, " + user.getName(), chatId);
+            response.getResponse();
+            user.increaseNumberOfQuestions();
+            return "successfulCompare";
+        }
+        else {
+            try {
+                int answer = Integer.parseInt(splitedString[0]);
+                Response response = new TGResponse(TelegramBot.getConfig(),"Неверно, " + user.getName(), chatId);
+                response.getResponse();
+                user.increaseNumberOfQuestions();
+                return "successfulCompare";
+            } catch (NumberFormatException e) {
+                checkForCommand(userAnswer, update);
+            }
+        }
+        return null;
     }
 
     /**
@@ -217,25 +219,18 @@ public class TGHandler extends BaseHandler {
      * @param userMessage то, что ввёл пользователь в качестве ответа
      * @param update данные пользователя
      */
-    public compareResultConditions checkForCommand(String userMessage, Update update){
+    public void checkForCommand(String userMessage, Update update){
         String[] splitedString = userMessage.split(" ");
-        String[] command;
+        String[] command = new String[2];
         if (splitedString[0].charAt(0) == '/') {
             Commands commandAnalyzer = new Commands();
             command = commandAnalyzer.getCommand(splitedString, user);
             Response response = new TGResponse(TelegramBot.getConfig(), user.getName() + ",\n" + command[0], update.getMessage().getChatId());
             response.getResponse();
-            switch (command[1]){
-                case null:
-                    return compareResultConditions.COMMAND_DEFAULT;
-                case  "GameSwitched":
-                    return compareResultConditions.COMMAND_CHANGEGAME;
-                case "NEEDTOEXIT":
-                    return compareResultConditions.COMMAND_EXIT;
-                default:
-                    break;
-            }
+            isCommandBeingTyped = true;
         }
-        return compareResultConditions.NO_COMPARE;
+        else isCommandBeingTyped = false;
     }
+
+
 }
