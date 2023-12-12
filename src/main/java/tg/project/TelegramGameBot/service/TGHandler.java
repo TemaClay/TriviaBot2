@@ -8,7 +8,9 @@ import tg.project.TelegramGameBot.service.interfaces.Game;
 import tg.project.TelegramGameBot.service.interfaces.Request;
 import tg.project.TelegramGameBot.service.interfaces.Response;
 import tg.project.TelegramGameBot.service.mathgameutility.MathGame;
+import tg.project.TelegramGameBot.service.wordgameutility.WordComparison;
 import tg.project.TelegramGameBot.service.wordgameutility.WordGame;
+import tg.project.TelegramGameBot.service.wordgameutility.WordGameQuestions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -260,9 +262,13 @@ public class TGHandler extends BaseHandler {
     public void gameCompareResults(Game game, String userAnswer, Update update) {
         Response response;
         long chatId = update.getMessage().getChatId();
-        String[] splitedString = userAnswer.split(" ");
-        if (Objects.equals(game.getResult().toLowerCase(), userAnswer.toLowerCase())) {
+        WordComparison wordComparison = new WordComparison(game.getResult().toLowerCase(), userAnswer.toLowerCase());
+        if (wordComparison.getResultOfComparison()) {
             response = new TGResponse(TelegramBot.getConfig(), "Верно, " + user.getName(), chatId);
+            if (Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME))
+            {
+                WordGameQuestions.questions.get(game.getQuestion())[1] = "0";
+            }
             response.getResponse();
             user.increaseCorrectAnswers();
         } else {
