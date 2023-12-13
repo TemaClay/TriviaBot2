@@ -265,12 +265,11 @@ public class TGHandler extends BaseHandler {
         WordComparison wordComparison = new WordComparison(game.getResult().toLowerCase(), userAnswer.toLowerCase());
         if (wordComparison.getResultOfComparison()) {
             response = new TGResponse(TelegramBot.getConfig(), "Верно, " + user.getName(), chatId);
-            if (Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME))
-            {
-                WordGameQuestions.questions.get(game.getQuestion())[1] = "0";
-            }
+            if (Objects.equals(botCondition, startConditions.ONGOING_WORD_GAME)) WordGameQuestions.questions.get(game.getQuestion())[1] = "0";
             response.getResponse();
             user.increaseCorrectAnswers();
+            if (Objects.equals(botCondition,startConditions.ONGOING_WORD_GAME)) user.increaseCorrectAnswersTrivia();
+            else if (Objects.equals(botCondition,startConditions.ONGOING_MATH_GAME)) user.increaseCorrectAnswersMathGame();
         } else {
                 actionCondition = checkForCommand(userAnswer, update);
                 if (!Objects.equals(actionCondition, commandAction.NO_COMPARE)) return;
@@ -278,6 +277,9 @@ public class TGHandler extends BaseHandler {
                 response.getResponse();
         }
         user.increaseNumberOfQuestions();
+        if (Objects.equals(botCondition,startConditions.ONGOING_WORD_GAME)) user.increaseNumberOfQuestionsTrivia();
+        else if(Objects.equals(botCondition,startConditions.ONGOING_MATH_GAME)) user.increaseNumberOfQuestionsMathGame();
+
         actionCondition = commandAction.SUCCESS;
     }
 

@@ -30,7 +30,14 @@ public class Commands
                 res[1] = TGHandler.commandAction.COMMAND_DEFAULT;
                 break;
             case "/result":
-                res[0] = "количество правильных ответов: " + user.getCorrectAnswers() + " из " + user.getNumberOfQuestions();
+                float allQuestionsPercent = (float) user.getCorrectAnswers()/user.getNumberOfQuestions()*100;
+                float triviaQuestionsPercent = (float) user.getCorrectAnswersTrivia()/user.getAllAnswersTrivia()*100;
+                float mathGameQuestionsPercent = (float) user.getCorrectAnswersMathGame()/user.getAllAnswersMathGame()*100;
+                res[0] = "Общее количество правильных ответов: " + user.getCorrectAnswers() +
+                        " из " + user.getNumberOfQuestions()+ " (" +String.format("%.2f", allQuestionsPercent)+"%)"+
+                        ". \nПравильных ответов в игре Тривиа: " + user.getCorrectAnswersTrivia() +
+                        " из " + user.getAllAnswersTrivia()+" (" +String.format("%.2f", triviaQuestionsPercent)+"%)" + ". \nПравильных ответов в игре Математика: " + user.getCorrectAnswersMathGame() +
+                        " из " + user.getAllAnswersMathGame()+" (" +String.format("%.2f", mathGameQuestionsPercent)+"%)" + ".";
                 res[1] = TGHandler.commandAction.COMMAND_DEFAULT;
                 break;
             case "/report":
